@@ -1,0 +1,4 @@
+interface:
+  display_name: "Two-Axis Code Review"
+  short_description: "Review a diff against standards and spec"
+  default_prompt: "Use $code-review to review this branch against its specification and repository standards."

@@ -1,0 +1,35 @@
+# Room skills that work without room; fleet/cloud-setup.sh copies these.
+# Symlinks into other repos (the minecraft-* skills) would dangle in the cloud.
+architect
+blast-radius
+codebase-design
+code-review
+companion-ui-design
+create-verification-map
+diagnosing-bugs
+fluent-vapor
+grilling
+grill-me
+handoff-ingest
+improve-codebase-architecture
+ios-pwa-input-hygiene
+ios-pwa-safe-area
+maintain-verification-map
+mobile-chat-ux
+no-ai-slop
+no-comments
+node-professional
+operator-console-ui
+prototype
+pr-review-loop
+python-professional
+react-native-expo
+research
+rossmann-voice
+sqlite-schema-manager
+svelte-5-runes-disciplinarian
+swiftui-liquid-glass-craft
+swift-vapor-swiftui-professional
+tdd
+to-spec
+writing-for-agents

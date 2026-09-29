@@ -1,0 +1,4 @@
+interface:
+  display_name: "Codebase Design"
+  short_description: "Improve seams, interfaces, and module depth"
+  default_prompt: "Use $codebase-design to compare design options for this module boundary."

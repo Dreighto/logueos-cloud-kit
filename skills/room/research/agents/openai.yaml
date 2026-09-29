@@ -1,0 +1,4 @@
+interface:
+  display_name: "Primary-Source Research"
+  short_description: "Investigate questions with cited primary sources"
+  default_prompt: "Use $research to investigate this question using current primary sources."
