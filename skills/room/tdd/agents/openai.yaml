@@ -1,4 +1,0 @@
-interface:
-  display_name: "Test-Driven Development"
-  short_description: "Work in behavior-first red-green slices"
-  default_prompt: "Use $tdd to implement this change one behavior-first test slice at a time."

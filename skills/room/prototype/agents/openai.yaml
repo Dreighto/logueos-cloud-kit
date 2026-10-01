@@ -1,6 +1,0 @@
-interface:
-  display_name: "Throwaway Prototype"
-  short_description: "Build a bounded prototype to answer one question"
-  default_prompt: "Use $prototype to test this design question with disposable code."
-policy:
-  allow_implicit_invocation: false
