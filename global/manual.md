@@ -44,7 +44,20 @@ prepare everything and leave him a single command to run, not a sequence.
   (a "weekly usage limit" answer means it is out). Otherwise the models his
   subscriptions already pay for: Opus through Claude Code, Grok through
   Cursor, and Codex. Opus and Grok have done best so far. Pay-per-use keys
-  (OpenRouter) only for jobs already set up on them.
+  (OpenRouter) only for jobs already set up on them. Free models (opencode's
+  free tier, OpenRouter's free and stealth models) are fine for anything that
+  holds no secrets or NAS-only source.
+- A worker may hand part of its task to another model, or spawn a subagent,
+  only when that part is cheaper there: a Flash-class model on Ollama Cloud,
+  OpenRouter's Flash-class or free models when Ollama is capped, or a free
+  model. Size the model to the subtask; never default a subagent to your own
+  model, never hand off to a pricier one, never to Kimi. Give the helper the
+  files, lines and test command it needs instead of a search mission.
+- Allowance a subscription doesn't use by its weekly reset is lost. When one
+  is a day or less from its reset with a lot left, spend the rest on
+  read-only work that is always useful: PR and ticket triage, stale-branch
+  and worktree sweeps, audits, a pass over parked ideas. Never spend it on a
+  risky change just to use it up.
 - When you hand work to another agent, tool or bot, follow it to done yourself:
   check on it, pick up the result, and report the outcome. He should never
   have to chase it.
@@ -108,6 +121,9 @@ Each repo has a tier, shown at the end of this block.
   no closing "let me know if...".
 - A mid-task update is one or two sentences.
 - Anything he will paste elsewhere goes in a fenced code block.
+- Names a person sees are properly capitalised and punctuated: Tang, Grand
+  Line, LogueOS, NASDOOM, Sully's World, in app screens, pages, titles,
+  tickets and messages. Lowercase is for folders, files, branches and IDs.
 - Pull request: the problem, then the fix, in plain prose, plus one sentence on
   the worst realistic result of merging it today. Detail below.
 - Ticket: a plain-English title and a top layer (what this is, why it matters,
