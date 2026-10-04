@@ -23,7 +23,9 @@ prepare everything and leave him a single command to run, not a sequence.
 - A roadblock is a problem to solve, not a reason to stop. Read the error, try
   the obvious fix, then a different route. If a side issue can't be fixed, work
   around it, note it, and keep going. Keep working on everything not blocked.
-- Fix mistakes you find along the way before you call the work done.
+- Fix task-caused and acceptance-blocking mistakes before you call the work
+  done, and record unrelated issues as separate work. This never defers a
+  security or correctness blocker in the change being delivered.
 - Put status in the same message as your next action. Never end a turn on
   "want me to continue?".
 - Done means it works, not that it should. Run the test, the build, the page,
@@ -94,6 +96,100 @@ prepare everything and leave him a single command to run, not a sequence.
   boundaries: files, network, subprocesses, databases, auth, untrusted input.
 - Precise names and small functions over explanatory prose.
 
+## Scoped verification (operator rule)
+
+- Before dispatch, the ticket records the observed failure and reproduction,
+  diagnosed cause or bounded investigation, intended fix, affected surfaces,
+  acceptance criteria, and exact test methods, stages or journeys. Each check
+  names the behavior it proves. Do not hand a worker an open-ended test mission.
+- Test only the affected behavior. A whole UI target, provider matrix or journey
+  suite is a full suite even without a `--full` flag. Unrelated coverage needs
+  the Captain's approval. Broaden focused checks only for an actual failure or
+  an affected shared contract, recording the evidence before running them.
+- Mandatory release gates and separately authorized scheduled full runs still
+  apply. If a gate requires unrelated coverage for a contained change, report
+  the constraint; never bypass the gate or silently expand the run.
+- A properly diagnosed and specified small fix targets 30 minutes of agent work
+  through verification and authorized delivery, excluding waits for operator
+  approval. Before exceeding that, report elapsed time, the evidenced blocker
+  and the smallest next action. The target never excuses skipping a failed
+  check or claiming unproven success. For a large authorized job, set the budget
+  per milestone in its bounded plan (see Bounded completion); the overrun report
+  and the 30-minute checkpoint are separate: the first says a target is missed,
+  the second forces a plan change when neither acceptance nor diagnosis advances.
+- Disable expensive automatic diagnostic collection for an intentionally
+  failing baseline; retain the failure log and test result. Use the project's
+  supported setting, such as Xcode's `-collect-test-diagnostics never`.
+- Review the settled change once with the required independent reviewer.
+  Repeat reviews or checks only for material changes, real findings or actual
+  failures. Do not spend another worker handoff, speculative review or broad
+  suite on a routine correction. Project-required independent signoffs remain.
+
+## Bounded completion (operator rule)
+
+A job can keep implementing, reviewing and re-running a full gate forever without
+converging. Tool activity is not acceptance progress. Bound every deliverable
+before it starts, and bound the loop when a check fails.
+
+- Plan one bounded deliverable at a time: exact acceptance criteria, owner and
+  dependencies, the focused proof that shows each criterion works, then one final
+  required qualification, plus a budget in minutes with waits accounted separately.
+  A multi-item job carries milestones; do not impose one small-fix budget on an
+  authorized large one.
+- Keep one short attempt record in the ticket or the session scratch: task start,
+  each failed attempt with its receipt, and the current candidate. Changing
+  worker, compaction or rebase does not reset that history. Use the existing
+  record instead of creating a new tracking system. Carry its path and attempt
+  totals into every handoff; recover missing history before another retry.
+- On the first test or qualification failure, preserve the receipt, classify it
+  (product, environment/provider, or test/harness), reproduce it narrowly, fix
+  only the blocking issue, and validate narrowly before any expensive rerun.
+  Allow at most one unchanged retry for an evidenced transient failure. Each
+  execution counts as an attempt, including that retry.
+- After two failed attempts at the same acceptance criterion across workers, stop
+  repeating the identical loop. Diagnose or replan within existing authority,
+  switch approach or route on the evidence, and keep independent work moving. If
+  the only unresolved blocker needs new scope or authority, report it; never
+  bypass a gate. Never stop all progress because a counter tripped, never mark
+  red green, and never combine incompatible receipts.
+- Before a live mutation or a long qualification, confirm the exact runner,
+  service or process identity and job ownership from live state, drain or wait
+  for busy resources, and stabilize any needed GPU or service state with approved
+  reversible changes and a way to restore it. For trust-boundary or scheduling
+  code, get focused adversarial proof (untrusted writes, cancellation, child and
+  reservation lifecycle) before a live install or an expensive gate. Use the
+  existing trust boundary rather than first installing an unsafe prototype.
+- Freeze a final candidate: batch the known blocking fixes, settle the focused
+  proofs and the required review, then run the final release gate and record the
+  commit, artifact and config. A new unrelated advisory does not reset the
+  release; park it with evidence. When policy requires a fresh final gate, run it
+  on the changed exact candidate; never reuse a wrong-head receipt.
+- Count a mandatory hook or CI review toward the required independent review
+  only when it covers this candidate's scope and exact source revision, and its
+  reviewer is from a different family than the builder. Project-specific review
+  requirements also apply, including every required signoff and multiple-family
+  requirements. Do not add an optional
+  duplicate review for a routine correction; repeat review only for a material
+  change, a real finding, or a mandatory exact-head requirement. Consolidate
+  findings, fix the relevant real issues, and explain invalid ones once. Never
+  bypass a hook or signoff and never hide a failure.
+- A parent owns the worker's receipt: check the source, artifact, config,
+  commands and exit status against the actual logs, CI service or artifacts,
+  plus targeted independent evidence; a worker's summary alone is insufficient.
+  Do not blanket
+  rerun an expensive gate that already has valid proof unless the evidence is
+  stale, wrong or missing, relevant source or configuration changed, an actual failure
+  occurred, or policy mandates a repeat.
+- Checkpoint every 30 minutes against acceptance: compare accepted criteria and
+  blockers with the last checkpoint, including elapsed time and waits. Tool
+  calls, new reviews, status polling and fresh dispatches are not acceptance
+  progress. If no criterion was accepted and no blocker narrowed, change the plan
+  before another expensive cycle, and respect a real command that is still
+  running rather than kill it blindly. This checkpoint is the orchestrator's
+  responsibility; the existing inactivity watchdog does not enforce it.
+- Bad: whole gate -> timeout -> whole gate again -> a new unrelated tweak.
+  Good: narrow diagnosis -> freeze a candidate -> one final mandatory gate.
+
 ## Review
 
 Each repo has a tier, shown at the end of this block.
@@ -135,6 +231,34 @@ Each repo has a tier, shown at the end of this block.
 Hand long or parallel work to the project's own tools (Grand Line: its ticket
 watcher, Cursor lanes and Grok bots). Kernel dispatch is for kernel work only.
 Where a project has no runner, do the work yourself.
+
+- Give every dispatched orchestrator and worker a useful-progress guard.
+  `fleet/stall_guard.py watch --events <log> --pid <pid> --start <tick> --route '<next command>'`
+  parses the worker's own native log (opencode `tool_use`/`step_finish`, Codex
+  CLI `item.started`/`item.completed` and rollout `response_item`, Cursor and Claude stream JSON) and stops a worker
+  whose own pid shows no real progress for eight turns or twelve quiet minutes.
+  Progress is a completed tool result, a real file change or a fresh dispatch;
+  assistant turns advance a turn, while reasoning text, encrypted reasoning
+  chunks and a quiet log are not progress. A tool command still running
+  protects the worker until a deadline stored once per pid and start, so a long
+  build is not killed while it is visibly working and repeated scans cannot
+  extend the deadline forever.
+- The stop is scoped: the worker's own pid, and its process group only when it
+  leads one, so a sibling session is never signalled. The guard then appends one
+  `failed` attempt to the routing log, starts the next unused route in the
+  worker's cwd with the environment preserved, and keeps watching that fallback
+  until the routes are exhausted. At exhaustion it stops and logs the still-
+  stalled process rather than leaving it running. Routes are bounded and deduped.
+- `fleet/stall_guard.py launch --worker '<command>' --events <log> --route '<next command>'` is the
+  launcher for either role: it starts the process detached with its output as the events log and
+  guards it in one process, so the guard actually catches a native reasoning
+  loop today. An interactive orchestrator that launched the worker itself uses
+  `watch` with the same log and pid; `fleet/workers.py` remains the outside
+  monitor, and `stall_guard.py scan` turns its stalled rows into the stop-and-
+  route action. An orchestrator itself needs an outer guard; it cannot watch
+  its own reasoning loop. Eight completed turns catches repeated reasoning,
+  twelve quiet minutes allows short investigation, and a running tool has a
+  fixed twenty-minute deadline rather than unlimited protection.
 
 ## Runs automatically
 
