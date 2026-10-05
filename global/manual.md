@@ -107,8 +107,15 @@ prepare everything and leave him a single command to run, not a sequence.
   the Captain's approval. Broaden focused checks only for an actual failure or
   an affected shared contract, recording the evidence before running them.
 - Mandatory release gates and separately authorized scheduled full runs still
-  apply. If a gate requires unrelated coverage for a contained change, report
-  the constraint; never bypass the gate or silently expand the run.
+  apply, but a gate that demands the full suite is not approval to run it.
+  Stop before the run, report the constraint and ask; never bypass the gate
+  or silently expand the run.
+- The Captain's approval covers one full run of one named build, unless the
+  project's approval tool grants a batch (opop: ten runs within 12 hours).
+  Each run uses one, including a failed, cancelled or interrupted one. When
+  the batch is spent or expired, stop and ask; do not hand him an approval
+  command after every failed run. A brief that wants full runs says how many;
+  one more than that is a new ask.
 - A properly diagnosed and specified small fix targets 30 minutes of agent work
   through verification and authorized delivery, excluding waits for operator
   approval. Before exceeding that, report elapsed time, the evidenced blocker
