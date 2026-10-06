@@ -38,6 +38,9 @@ prepare everything and leave him a single command to run, not a sequence.
   type, the docs. Say which ones you checked.
 - A change that adds a state (enable, archive, mute, park) ships with its way
   back out.
+- Anything you leave running on a machine (a timer, a service, a hook, a
+  tool other agents call) gets a Linear ticket that says what it does, where
+  it runs and how to turn it off, so it doesn't live only on that machine.
 - For wide work (an audit, a migration, many files), split it across helpers if
   your tool can, and check each helper's evidence before you accept it.
 - When he names a model, tool or harness, use that one. Otherwise pick the
