@@ -88,6 +88,14 @@ prepare everything and leave him a single command to run, not a sequence.
 - Review feedback never grows the scope: fix the real findings, answer the rest
   in one line.
 - Don't leave scratch files, screenshots or logs in a repo.
+- Every change can be found from its ticket and back: work on the ticket's
+  branch, end the pull request title with the ticket id, and link the pull
+  request (or the commit range, where a repo has no pull requests) on the
+  ticket. Work that has no ticket gets one before it merges, or a Done ticket
+  right after, in the project its siblings use. Before building, search Linear
+  for the same work: a Done ticket means it is handled, and an In Review
+  ticket means a branch exists, so pick up that pull request rather than
+  start another.
 - Don't write model or worker version numbers into instructions. Name the
   family or the capability.
 
@@ -231,7 +239,10 @@ Each repo has a tier, shown at the end of this block.
   Line, LogueOS, NASDOOM, Sully's World, in app screens, pages, titles,
   tickets and messages. Lowercase is for folders, files, branches and IDs.
 - Pull request: the problem, then the fix, in plain prose, plus one sentence on
-  the worst realistic result of merging it today. Detail below.
+  the worst realistic result of merging it today. Detail below. A change he
+  can see (a page, a view, an animation) puts its proof at the top: a before
+  and after screenshot, or a short recording, of the real build, embedded as
+  images he can read on a phone.
 - Ticket: a plain-English title and a top layer (what this is, why it matters,
   what he is deciding). The agent section opens with `Done means:` and
   `Come back if:`.
