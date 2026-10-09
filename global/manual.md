@@ -31,6 +31,11 @@ prepare everything and leave him a single command to run, not a sequence.
 - Done means it works, not that it should. Run the test, the build, the page,
   the live check. Say how you know: "ran it" is evidence, "read the code" is
   not yet. Mark anything you couldn't confirm and where you looked.
+- In Tang and OPOP, a change he uses ends in Ready to test, not Done. Once it
+  is live (merged, deployed or on his phone), move its ticket there with a
+  `Test:` line: what to try, on which device, and what he should see. He marks
+  it Done, or sends it back to Todo with a note. A ticket waiting on his call
+  gets the `needs-you` label and a `Decide:` line. His morning list shows both.
 - If he or another agent says something you already checked is wrong, re-check
   once, then push back with the evidence (the file and line, the output).
   Agreeing with a false claim is worse than disagreeing politely.
@@ -82,7 +87,12 @@ prepare everything and leave him a single command to run, not a sequence.
 
 ## Hard rules
 
-- Never commit secrets.
+- Never commit secrets, and never print one: compare, hash or count it, and
+  keep assertion and error messages from echoing it. A secret that showed only
+  in a session's own output or logs on this machine has not left it: note that
+  on the ticket and never ask him to rotate it. Tell him only when it left the
+  machine (a repo, a push, a published page, a third-party service, a message
+  to him or anyone), with the one step that rotates it.
 - Never bypass a hook or a review gate. If a gate is wrong, say so.
 - Never force-push or rewrite a branch someone else uses.
 - Review feedback never grows the scope: fix the real findings, answer the rest
@@ -95,7 +105,10 @@ prepare everything and leave him a single command to run, not a sequence.
   right after, in the project its siblings use. Before building, search Linear
   for the same work: a Done ticket means it is handled, and an In Review
   ticket means a branch exists, so pick up that pull request rather than
-  start another.
+  start another. Move a ticket to In Progress when you start it, with the
+  files it touches named in it: the dispatcher won't start queued work on a
+  file a started ticket names. Name only those; a file named as off-limits
+  is claimed too.
 - Don't write model or worker version numbers into instructions. Name the
   family or the capability.
 
@@ -118,18 +131,25 @@ prepare everything and leave him a single command to run, not a sequence.
   the Captain's approval. Broaden focused checks only for an actual failure or
   an affected shared contract, recording the evidence before running them.
 - Mandatory release gates and separately authorized scheduled full runs still
-  apply, but a gate that demands the full suite is not approval to run it.
-  Stop before the run, report the constraint and ask; never bypass the gate
-  or silently expand the run.
-- The Captain's approval covers one full run of one named build, unless the
-  project's approval tool grants a batch (opop: ten runs within 12 hours).
-  Each run uses one, including a failed, cancelled or interrupted one. When
-  the batch is spent or expired, stop and ask; do not hand him an approval
-  command after every failed run. A brief that wants full runs says how many;
-  one more than that is a new ask.
+  apply, but a gate that demands the full suite is not approval to run it,
+  unless the project's pool gate admits it. Otherwise stop before the run,
+  report the constraint and ask; never bypass the gate or silently expand
+  the run.
+- Where a project's gate reads pool usage (opop), a full run starts only
+  while every pool it needs is above the fleet floor (25% of the week left,
+  lower in the pool's last hours). A pool that shows no usage allows ten full
+  runs in any 12 hours. A run stopped by a drained pool waits for the pool's
+  reset and retries, up to three times per build; then the gate refuses and
+  the agent tells the Captain. When the Mac that runs the app tests is busy,
+  the gate sends that stage to the second CI (Codemagic) while its free
+  minutes last. A project without such a gate, or one the Captain has
+  switched back to approval mode, keeps the old rule: his typed approval
+  covers one full run of one named build (opop's grants ten within 12
+  hours), each run uses one, including a failed one, and when they are spent
+  you stop and ask.
 - A properly diagnosed and specified small fix targets 30 minutes of agent work
   through verification and authorized delivery, excluding waits for operator
-  approval. Before exceeding that, report elapsed time, the evidenced blocker
+  approval or a pool gate. Before exceeding that, report elapsed time, the evidenced blocker
   and the smallest next action. The target never excuses skipping a failed
   check or claiming unproven success. For a large authorized job, set the budget
   per milestone in its bounded plan (see Bounded completion); the overrun report
@@ -253,6 +273,12 @@ Hand long or parallel work to the project's own tools (Grand Line: its ticket
 watcher, Cursor lanes and Grok bots). Kernel dispatch is for kernel work only.
 Where a project has no runner, do the work yourself.
 
+- Every worker on room starts with permissions off, so "read only" in a brief
+  is only a request: one such worker edited and restarted a live service
+  (LOS-935). Read-only work (an audit, triage, an investigation) runs as
+  `codex exec -s read-only`, which enforces it, and its report comes back as
+  the final reply. Antigravity, Cursor and opencode workers get only work they
+  do in their own worktree.
 - Give every dispatched orchestrator and worker a useful-progress guard.
   `fleet/stall_guard.py watch --events <log> --pid <pid> --start <tick> --route '<next command>'`
   parses the worker's own native log (opencode `tool_use`/`step_finish`, Codex
