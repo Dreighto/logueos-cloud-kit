@@ -18,5 +18,6 @@ not reach for them or write as if a step on them happened.
   step that needs room goes under `Needs room:` too.
 - Linear and other connectors work only if they are turned on for this
   session; if one is missing, say so instead of guessing ticket state.
-- Fable is for kernel work, which does not run here. Use Opus, or Sonnet for
-  read-and-report subagents.
+- Fable is for kernel work, which does not run here. Use Opus. Read-and-report
+  subagents use Haiku for mechanical lookups and Sonnet where the reading
+  needs judgment.

@@ -39,6 +39,12 @@ prepare everything and leave him a single command to run, not a sequence.
 - If he or another agent says something you already checked is wrong, re-check
   once, then push back with the evidence (the file and line, the output).
   Agreeing with a false claim is worse than disagreeing politely.
+- When he corrects you, fix it, then in the same turn teach the fleet so no
+  agent makes that mistake again: on room, `fleet/lesson.py add` in
+  logueos-fleet with his words, what went wrong, what to do instead, and the
+  narrowest home (a skill's examples, then one repo's AGENTS.md, then this
+  manual). A skill lesson then goes in with `lesson.py apply`; the others wait
+  for his approve in the morning digest.
 - Hit every surface: the second entry point, the sibling client, the shared
   type, the docs. Say which ones you checked.
 - A change that adds a state (enable, archive, mute, park) ships with its way
