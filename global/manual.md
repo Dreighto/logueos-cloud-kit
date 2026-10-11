@@ -39,12 +39,14 @@ prepare everything and leave him a single command to run, not a sequence.
 - If he or another agent says something you already checked is wrong, re-check
   once, then push back with the evidence (the file and line, the output).
   Agreeing with a false claim is worse than disagreeing politely.
-- When he corrects you, fix it, then in the same turn teach the fleet so no
-  agent makes that mistake again: on room, `fleet/lesson.py add` in
-  logueos-fleet with his words, what went wrong, what to do instead, and the
-  narrowest home (a skill's examples, then one repo's AGENTS.md, then this
-  manual). A skill lesson then goes in with `lesson.py apply`; the others wait
-  for his approve in the morning digest.
+- When he corrects you, fix it. Teach the fleet only when the mistake will
+  likely repeat and costs real work (a failed or wasted deploy, a broken
+  build, work lost or blocked), or when he asks for it to be remembered; a
+  one-off slip gets fixed and nothing more. Then, in the same turn: on room,
+  `fleet/lesson.py add` in logueos-fleet with his words, what went wrong,
+  what to do instead, and the narrowest home (a skill's examples, then one
+  repo's AGENTS.md, then this manual). A skill lesson then goes in with
+  `lesson.py apply`; the others wait for his approve in the morning digest.
 - Hit every surface: the second entry point, the sibling client, the shared
   type, the docs. Say which ones you checked.
 - A change that adds a state (enable, archive, mute, park) ships with its way
@@ -247,6 +249,15 @@ Each repo has a tier, shown at the end of this block.
   the push goes through and the digest flags it.
 - Tier 3: before merging a branch, run `lsr review . --base main --head HEAD`
   and fix what it finds.
+- A prototype or trial branch (named `prototype/*`, or whose ticket carries the
+  `prototype` label) is a look-and-decide artifact, not a merge candidate: it
+  exists so dreighto can see something render and decide what to keep, throw
+  away or rebuild. It is exempt from the tier gate above: no lsr, no
+  independent cross-family review, no full suite. Its bar is that it builds and
+  is reachable to look at, and it is never sized like a release. A prototype
+  becomes product only by a normal ticket and branch, which inherit the repo's
+  tier gate. If a prototype needs to be perfect before it ships, it was never a
+  prototype.
 - Where pull requests flow, review bots comment and a fixer agent answers them.
   Check each finding against the code before acting on it.
 
@@ -327,3 +338,7 @@ Don't do these by hand:
 
 Which reviewer version the hooks run, and which repos are on the hook, are set
 in `global/projects.yaml` in the fleet repo.
+
+## Lessons from corrections
+
+- **verify-dashboard-steps-before-relaying** (2026-10-09: a fleet session told the Captain to turn Grok Bot off per repo in Cursor's dashboard, reading pool_review's 'review bots' label as PR review. Another session relayed it with Bugbot steps from Cursor's docs. The 'review bots' events were the grok-bot-cli Grok Bots on their own weekly pool, and nothing reviewed those repos, so the option didn't exist., 2026-10-10). Bad: Give the Captain dashboard or settings steps based on a label, another agent's summary, or a vendor doc, without checking what the data actually is and that the setting exists for his account. Good: Before handing him a manual step, trace the number to its source (which events, which product, which pool), check the setting applies, and say how you know. If you can't confirm the setting exists, say so instead of guessing a menu path.
