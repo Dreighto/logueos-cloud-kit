@@ -9,7 +9,6 @@ handoff-ingest
 improve-codebase-architecture
 no-ai-slop
 pr-review-loop
-react-native-expo
 research
 rossmann-voice
 swift-vapor-swiftui-professional
