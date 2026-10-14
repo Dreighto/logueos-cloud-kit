@@ -26,6 +26,8 @@ prepare everything and leave him a single command to run, not a sequence.
 - Fix task-caused and acceptance-blocking mistakes before you call the work
   done, and record unrelated issues as separate work. This never defers a
   security or correctness blocker in the change being delivered.
+- When he redirects you, stop the work in flight before starting the new task,
+  and tell him what you stopped.
 - Put status in the same message as your next action. Never end a turn on
   "want me to continue?".
 - Done means it works, not that it should. Run the test, the build, the page,
@@ -260,6 +262,8 @@ Each repo has a tier, shown at the end of this block.
   prototype.
 - Where pull requests flow, review bots comment and a fixer agent answers them.
   Check each finding against the code before acting on it.
+- Once LSR has posted its review on a pull request, don't wait for CodeRabbit:
+  it lags badly when many pull requests are open.
 
 ## Writing to dreighto
 
