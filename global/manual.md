@@ -38,6 +38,18 @@ prepare everything and leave him a single command to run, not a sequence.
   `Test:` line: what to try, on which device, and what he should see. He marks
   it Done, or sends it back to Todo with a note. A ticket waiting on his call
   gets the `needs-you` label and a `Decide:` line. His morning list shows both.
+  Ready to test is only for something he can try. Test, CI, tooling and docs
+  work goes to Done with a receipt comment, and so does each milestone of a
+  split job; only the parent waits for him, with one `Test:` line.
+  Agents test, he checks. Before Ready to test, test everything you can on
+  room (the simulator, Playwright, a live call); if that proves the whole
+  `Test:` line, close the ticket Done with the receipt. Only what needs his
+  eyes or his own device stays, and it becomes one numbered check on his
+  page, https://p.dr8o.dev/tang/captain-checks.html (source
+  `~/dev/assets/audits/captain-checks/captain-checks.html`: add the check and
+  its ticket to the table, re-upload to the same path, remove it once the
+  ticket closes). "Checks pass" from him closes the listed tickets; a failed
+  number goes back to Todo on its ticket with what he saw.
 - If he or another agent says something you already checked is wrong, re-check
   once, then push back with the evidence (the file and line, the output).
   Agreeing with a false claim is worse than disagreeing politely.
@@ -56,6 +68,10 @@ prepare everything and leave him a single command to run, not a sequence.
 - Anything you leave running on a machine (a timer, a service, a hook, a
   tool other agents call) gets a Linear ticket that says what it does, where
   it runs and how to turn it off, so it doesn't live only on that machine.
+  Its health check makes one real, cheap call end to end (start a no-op job
+  and remove it), because a login check passes while every real call fails.
+- Message another session only when the news changes what it is doing; the
+  rest goes in the handoff.
 - For wide work (an audit, a migration, many files), split it across helpers if
   your tool can, and check each helper's evidence before you accept it.
 - When he names a model, tool or harness, use that one. Otherwise pick the
@@ -129,6 +145,8 @@ prepare everything and leave him a single command to run, not a sequence.
 - No speculative guards, retries or fallbacks. Handle failure at real
   boundaries: files, network, subprocesses, databases, auth, untrusted input.
 - Precise names and small functions over explanatory prose.
+- A rule a script can check belongs in the script. A gate written only in
+  an instruction gets skipped; make the tool refuse instead.
 
 ## Scoped verification (operator rule)
 
@@ -342,6 +360,39 @@ Don't do these by hand:
 
 Which reviewer version the hooks run, and which repos are on the hook, are set
 in `global/projects.yaml` in the fleet repo.
+
+## Stories
+
+Real mistakes from this fleet, each with a name. Each one carries a lesson
+that reaches past its own case. When you see one starting again, in your work
+or another agent's, say its name and act on the lesson; he may say the name to
+you too. Add a story only when a mistake has a shape that will recur
+somewhere new, and keep this list short enough to read every time.
+
+- **Fourteen deploys.** On 13 Oct an agent ran 14 opop deploys overnight.
+  Each failed on a different flaky check, each got one narrow fix and another
+  100-minute run, and one look at all the failures together would have shown
+  the shared cause. When a second attempt fails, stop retrying and find what
+  the failures have in common.
+- **The green light.** Cursor's cloud agents and Tang's review fixer were
+  broken for five days while their health check, which only tested the login,
+  stayed green. Check the thing itself, not something next to it.
+- **The read-only worker.** A worker told "read only" edited and restarted a
+  live service, so read-only work moved to a Codex flag that enforces it. On
+  16 Oct we found the wrapper had been silently dropping that flag the whole
+  time. A rule in words is a request, and a guard nobody tried to get past is
+  a guess: make the tool refuse, then try to break it.
+- **Ten merges on red.** Ten fleet pull requests merged as soon as the push
+  hook passed, while main's checks had been red since the first one. Wait for
+  the result that decides, not the step before it.
+- **The menu that wasn't there.** An agent told the Captain which dashboard
+  switch to turn off, going by a label, and another agent relayed it with
+  steps from the vendor's docs. The switch didn't exist for his account.
+  Trace a step to its source before you hand it to him.
+- **The handoff nobody read.** Every session added a few sensible lines to
+  the handoff file until it reached 57 KB, and new sessions saw only the first
+  tenth of it. Many reasonable steps can build something nobody wanted; now
+  and then, step back and ask whether the whole thing still does its job.
 
 ## Lessons from corrections
 
