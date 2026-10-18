@@ -37,7 +37,9 @@ prepare everything and leave him a single command to run, not a sequence.
   is live (merged, deployed or on his phone), move its ticket there with a
   `Test:` line: what to try, on which device, and what he should see. He marks
   it Done, or sends it back to Todo with a note. A ticket waiting on his call
-  gets the `needs-you` label and a `Decide:` line. His morning list shows both.
+  gets the `needs-you` label and a `Decide:` line, and is linked as blocking
+  the tickets that wait on it (an `Unblocks:` line names any other work). His
+  morning list shows both, decisions holding the most work first.
   Ready to test is only for something he can try. Test, CI, tooling and docs
   work goes to Done with a receipt comment, and so does each milestone of a
   split job; only the parent waits for him, with one `Test:` line.
@@ -71,7 +73,9 @@ prepare everything and leave him a single command to run, not a sequence.
   Its health check makes one real, cheap call end to end (start a no-op job
   and remove it), because a login check passes while every real call fails.
 - Message another session only when the news changes what it is doing; the
-  rest goes in the handoff.
+  rest goes in the handoff. On room, a Claude Code session is reached with
+  SendMessage, and any other agent running in Herdr (opencode, Codex, Grok)
+  with `fleet/send.py` in the fleet repo.
 - For wide work (an audit, a migration, many files), split it across helpers if
   your tool can, and check each helper's evidence before you accept it.
 - When he names a model, tool or harness, use that one. Otherwise pick the
@@ -134,7 +138,9 @@ prepare everything and leave him a single command to run, not a sequence.
   start another. Move a ticket to In Progress when you start it, with the
   files it touches named in it: the dispatcher won't start queued work on a
   file a started ticket names. Name only those; a file named as off-limits
-  is claimed too.
+  is claimed too. The claim lapses when an In Progress ticket has had no
+  checkout, worker or update for a day, so when you stop, move the ticket
+  on: Done, back to Todo, or handed to a named session.
 - Don't write model or worker version numbers into instructions. Name the
   family or the capability.
 
@@ -145,6 +151,9 @@ prepare everything and leave him a single command to run, not a sequence.
 - No speculative guards, retries or fallbacks. Handle failure at real
   boundaries: files, network, subprocesses, databases, auth, untrusted input.
 - Precise names and small functions over explanatory prose.
+- Before writing a script for a job, check the fleet's tool map
+  (`global/tools.md` in the fleet repo, one line per tool); one may
+  already do it.
 - A rule a script can check belongs in the script. A gate written only in
   an instruction gets skipped; make the tool refuse instead.
 
@@ -298,10 +307,14 @@ Each repo has a tier, shown at the end of this block.
   Line, LogueOS, NASDOOM, Sully's World, in app screens, pages, titles,
   tickets and messages. Lowercase is for folders, files, branches and IDs.
 - Pull request: the problem, then the fix, in plain prose, plus one sentence on
-  the worst realistic result of merging it today. Detail below. A change he
-  can see (a page, a view, an animation) puts its proof at the top: a before
-  and after screenshot, or a short recording, of the real build, embedded as
-  images he can read on a phone.
+  the worst realistic result of merging it today. Then the evidence, before
+  and after: a change he can see (a page, a view, an animation) puts a
+  screenshot or short recording of the real build at the top, embedded as
+  images he can read on a phone; any other change names the test or command
+  that failed before and passes after, with its output. Then one line, `Door:
+  one-way` or `Door: two-way`: two-way means reverting the pull request undoes
+  it; one-way means it deletes data, migrates, sends something or spends money,
+  and says what can't be undone. Detail below.
 - Ticket: a plain-English title and a top layer (what this is, why it matters,
   what he is deciding). The agent section opens with `Done means:` and
   `Come back if:`.
@@ -316,7 +329,8 @@ Where a project has no runner, do the work yourself.
   is only a request: one such worker edited and restarted a live service
   (LOS-935). Read-only work (an audit, triage, an investigation) runs as
   `codex exec -s read-only`, which enforces it, and its report comes back as
-  the final reply. Antigravity, Cursor and opencode workers get only work they
+  the final reply. For OpenCode, use `OPENCODE_CONFIG_CONTENT="$(cd ~/dev/logueos-fleet && python3 -m fleet.opencode_read_only)" && export OPENCODE_CONFIG_CONTENT && opencode run --standalone -m <model> --format json "<task>" < /dev/null`.
+  Antigravity, Cursor and opencode workers get only work they
   do in their own worktree.
 - Give every dispatched orchestrator and worker a useful-progress guard.
   `fleet/stall_guard.py watch --events <log> --pid <pid> --start <tick> --route '<next command>'`

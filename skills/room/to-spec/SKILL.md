@@ -9,19 +9,25 @@ description: Turn an already-discussed conversation directly into a written spec
 
 Read back through the conversation and extract what was actually decided. Do not ask the operator anything new. A gap in the discussion is a gap in the spec, marked as such, not a prompt to go interview them.
 
+Read the code the spec touches before writing, so the decisions name the real parts of the system and the testing section points at tests that exist.
+
 ## Structure
 
-- **Problem**: what is wrong or missing, in plain language.
-- **Solution**: what will exist once this ships.
+- **Problem**: what is wrong or missing, in plain language, from the Captain's side.
+- **Solution**: what will exist once this ships, from the Captain's side.
 - **Decisions**: the concrete choices made in the conversation, each traceable to something actually said.
-- **Out of scope**: anything explicitly ruled out or left undecided.
+- **Testing decisions**: for each part, the behaviour that proves it works and where that check runs (an existing test file, the simulator, a live call). Prefer one check at the highest point that sees the whole behaviour over many small ones. Name tests that already do something similar. `to-tickets` carries these into each ticket's test methods, which the manual requires before any ticket is dispatched.
+- **Out of scope / Undecided**: anything explicitly ruled out, and every gap the conversation left open.
 
 No file paths and no code snippets in the spec, with one exception: a snippet from an already-built prototype that encodes a decision more precisely than prose can.
 
+Bad testing decision: "Add tests for the new settings."
+Good testing decision: "Saving the new field survives an app restart: one UI test that sets it, relaunches, and reads it back, next to the existing settings persistence test."
+
 ## Where it goes
 
-Save the spec to the target repo, not the fleet repo; a spec is project-specific. If the project has a docs or peer_reviews convention already, use it; otherwise ask where before guessing.
+Save the spec in Linear as a ticket in the team its work belongs to (FLT, TNG, OPO and so on), titled with what will exist, in Backlog. The tickets `to-tickets` makes from it become its sub-issues, so the spec and its work stay linked. Don't ask where to put it, and don't write it into a repo.
 
 ## Completion
 
-The spec is done when someone who was not in the conversation could read it and know what is being built and why, without needing to ask a single follow-up question about what was decided.
+The spec is done when someone who was not in the conversation could read it and know what is being built, why, and how each part will be shown to work, without asking a single follow-up question about what was decided. Give the Captain the ticket link.
