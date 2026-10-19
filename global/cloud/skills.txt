@@ -1,12 +1,8 @@
 # Room skills that work without room; fleet/cloud-setup.sh copies these.
 # Symlinks into other repos (the minecraft-* skills) would dangle in the cloud.
-blast-radius
-codebase-design
 code-review
 grilling
 grill-me
-handoff-ingest
-improve-codebase-architecture
 no-ai-slop
 pr-review-loop
 research
