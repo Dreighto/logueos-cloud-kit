@@ -120,6 +120,11 @@ him a single command to run, not a sequence.
   the same thing, stop retrying and find what the failures have in common.
 - Before acting on a live service, confirm from live state which one you are
   acting on.
+- Where slow device tests run after merge (Tang's iPhone suite), merge once the
+  quick checks pass. When the after-merge run goes red, the session whose
+  change is in the range it names fixes or reverts first. Phone builds and
+  deploys take only a commit that passed, and a `Test:` line names a build
+  that passed and is live.
 - Review the settled change once with the required independent reviewer: a
   hook or CI review counts when it covers this exact revision and its reviewer
   is from a different model family than the builder. Review again only for a
