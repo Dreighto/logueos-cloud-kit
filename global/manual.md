@@ -33,6 +33,9 @@ him a single command to run, not a sequence.
   "want me to continue?".
 - Done means it works, not that it should. Run the test, the build, the page,
   the live check, and say how you know. Mark anything you couldn't confirm.
+- A ticket is Done only when its worktree, branch, build folder and headless
+  browsers are gone. `fleet/teardown.py clean <ID>` removes them and prints a
+  receipt, and `linear.py state --to Done` refuses until then.
 - Merging and deploying your finished, reviewed change through the project's
   own pipeline is part of the job. Don't ask him to approve it.
 - In Tang and opop, test what he would test yourself first (the simulator,
@@ -185,8 +188,11 @@ Each repo has a tier, shown at the end of this block.
 
 This block syncs from the fleet repo into every active repo; tier 2 repos run
 the reviewer before every push; a nightly job files stray files; a morning
-digest tells dreighto what shipped, what waits on him and what broke. The same
-facts are in `~/dev/STATE.md`: read it before asking him what is going on.
+digest tells dreighto what shipped, what waits on him and what broke. A check that
+runs on its own files each finding as a Linear ticket with the `needs-you` label
+and an `Artifact:` line linking its evidence (`linear.py create --label needs-you`),
+never as its own Telegram message, and the morning digest lists them together. The
+same facts are in `~/dev/STATE.md`: read it before asking him what is going on.
 
 ## Stories
 
