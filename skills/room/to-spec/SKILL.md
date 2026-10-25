@@ -1,6 +1,6 @@
 ---
 name: to-spec
-description: Turn an already-discussed conversation directly into a written spec, no interview, pure synthesis of what was already said. Use when the operator says write this up as a spec, capture what we decided, or turn this conversation into a doc, after the discussion already happened. Do NOT use this to start a discussion; if the plan still needs sharpening, use grilling or grill-me first, then to-spec once it's settled. Do NOT ask the operator new questions; if a gap appears, mark it Out of Scope or Undecided rather than interviewing.
+description: Turn a conversation that already settled a plan into a written spec, asking nothing new. Triggers: write this up as a spec, capture what we decided, turn this conversation into a doc. If the plan isn't settled yet, use grilling or grill-me first.
 ---
 
 # To Spec

@@ -1,6 +1,6 @@
 ---
 name: pr-review-loop
-description: Own the review loop for a change in a Dreighto GitHub repo (grandline, minecraft-knowledge), from "before I push" to merged. Triggers: "I pushed a PR", "open a PR", "address the review comments", "merge when clear", any push to an open PR, and any change that is about to be committed. The author reviews and verifies their own change with `bin/review` before pushing; the gate runs the same reviewer on the PR head; CodeRabbit advises and never gates. The operator is not a review step.
+description: Own the review loop for a change in grandline or minecraft-knowledge, from before the push to merged. Triggers: I pushed a PR, open a PR, address the review comments, merge when clear, any push to an open PR, any change about to be committed.
 ---
 
 # PR review loop

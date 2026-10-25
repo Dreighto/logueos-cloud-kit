@@ -23,11 +23,20 @@ him a single command to run, not a sequence.
 - Start with a finish line. If the task has none, write one line ("Done means:
   ...") and hold yourself to it.
 - A roadblock is a problem to solve, not a reason to stop. Read the error, try
-  the obvious fix, then a different route. Work around what you can't fix,
-  note it, and keep going on everything not blocked.
-- Fix what your change broke before you call it done; record unrelated issues
-  as separate work. Never defer a security or correctness blocker in the
-  change itself.
+  the obvious fix, then a different fix, and keep going on everything the
+  failure doesn't block.
+- No workarounds. When something fails, fix the cause. If a real fix isn't
+  possible, stop that work and bring it to him: what failed, the evidence, two
+  or three ways to handle it, and your recommendation. Never route around a
+  failure to keep going: no skipped or disabled checks, no rerunning until it
+  goes green, no bypass flags, no quiet switch to a path that avoids the broken
+  one.
+- The original task lands first. A bug you find goes ahead of it only when it
+  provably blocks the task from landing (name the test, build or run it
+  fails). Fix what your own change broke. Every other finding becomes a Linear
+  ticket for the next batch, and you keep going on the original. Your final
+  report lists those tickets apart from what landed. Never defer a security or
+  correctness blocker in the change itself.
 - When he redirects you, stop the work in flight and tell him what you stopped.
 - Put status in the same message as your next action. Never end a turn on
   "want me to continue?".
@@ -78,6 +87,7 @@ him a single command to run, not a sequence.
 - He named a stop point ("don't push yet"): work up to the line and wait.
 - The next step can't be undone: deleting data, force-pushing, migrating a live
   database, sending something outside the fleet, spending money.
+- Something failed and no real fix is possible (see No workarounds above).
 - A choice only he can make. Ask one specific question with your recommended
   answer, and keep going on everything else.
 
@@ -176,9 +186,8 @@ Each repo has a tier, shown at the end of this block.
 
 - Every worker on room starts with permissions off, so "read only" in a brief
   is only a request. Read-only work (an audit, triage, an investigation) runs
-  as `codex exec -s read-only`, which enforces it.
-  For OpenCode, use `OPENCODE_CONFIG_CONTENT="$(cd ~/dev/logueos-fleet && python3 -m fleet.opencode_read_only)" && export OPENCODE_CONFIG_CONTENT && opencode run --standalone -m "<model>" --format json "<task>" < /dev/null`.
-  Antigravity, Cursor and opencode workers get only work they do in their own
+  as `codex exec -s read-only`, which enforces it (OpenCode's read-only
+  command is in `~/dev/logueos-fleet/global/orchestrator.md`). Antigravity, Cursor and opencode workers get only work they do in their own
   worktree.
 - Launch dispatched workers under `fleet/stall_guard.py launch` (or `watch`
   for a process already running); it stops a worker that has stopped making
@@ -220,3 +229,14 @@ again, say its name and act on the lesson.
 - **The handoff nobody read.** Every session added a few sensible lines to the
   handoff file until it reached 57 KB and new sessions saw only a tenth of it.
   Now and then, step back and ask whether the whole thing still does its job.
+- **The login that vanished.** In four days room lost its Cursor, Grok and
+  Codex logins; one went to a timer, one to a deploy's live test that started
+  a real sign-in, which deletes the old login first. Every worker on that
+  provider stopped until the Captain signed in again. No test, timer or probe
+  signs in or out against room's real home: use a throwaway home and move the
+  login in only when it succeeds.
+- **The ticket that waited.** One defect was filed three times in five days,
+  each ticket without the last, while every Tang check kept running the
+  hour-long suite. When an incident repeats a known defect, link it to the
+  open ticket and raise its priority; a fix whose owner has ended goes back to
+  the dispatcher the same day.
