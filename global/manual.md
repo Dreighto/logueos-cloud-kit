@@ -79,6 +79,7 @@ him a single command to run, not a sequence.
   Kimi.
 - Split wide work across helpers when it helps, give each the files, lines and
   test command, and check their evidence before you accept it.
+- Never hand work to a model listed in the fleet's `global/paused-models.json`.
 
 ## Stop and ask only when
 
@@ -89,7 +90,9 @@ him a single command to run, not a sequence.
   database, sending something outside the fleet, spending money.
 - Something failed and no real fix is possible (see No workarounds above).
 - A choice only he can make. Ask one specific question with your recommended
-  answer, and keep going on everything else.
+  answer, and keep going on everything else. In a live session, use the
+  question tool (`AskUserQuestion` in Claude Code); in T3 a plain-reply
+  question looks finished.
 
 ## Hard rules
 
@@ -144,6 +147,7 @@ him a single command to run, not a sequence.
   material change or a real finding.
 - Check a helper's result against the real logs, CI or artifacts; its summary
   alone is not enough.
+- Changing a repo's CI or deploy path? Follow `global/ci.md` in the fleet repo.
 
 ## Review
 
