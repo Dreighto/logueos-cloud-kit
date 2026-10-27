@@ -63,9 +63,13 @@ him a single command to run, not a sequence.
   type, the docs.
 - A change that adds a state (enable, archive, mute, park) ships with its way
   back out.
-- Anything you leave running on a machine (a timer, a service, a hook) gets a
-  Linear ticket saying what it does, where it runs and how to turn it off. Its
-  health check makes one real call end to end, not a login check.
+- Before building anything that keeps running or loads every session (tool,
+  timer, service, hook, skill, rule), its ticket answers: proof (the ticket,
+  thread or date it last cost him time; none, no build), payoff (time saved
+  weekly against tokens, upkeep, breakage), the smallest version that proves
+  it (build that first), and the way out (where it runs, how to turn it off,
+  what keeps it reversible). Once running, its health check makes one real
+  call end to end, not a login check.
 - When you hand work to another agent, tool or bot, follow it to done yourself.
   He should never have to chase it.
 
@@ -188,9 +192,7 @@ Each repo has a tier, shown at the end of this block.
 
 ## Background work
 
-- Every worker on room starts with permissions off, so "read only" in a brief
-  is only a request. Read-only work (an audit, triage, an investigation) runs
-  as `codex exec -s read-only`, which enforces it (OpenCode's read-only
+- Read-only work (audits, triage) runs as `codex exec -s read-only`, which enforces it (OpenCode's read-only
   command is in `~/dev/logueos-fleet/global/orchestrator.md`). Antigravity, Cursor and opencode workers get only work they do in their own
   worktree.
 - Launch dispatched workers under `fleet/stall_guard.py launch` (or `watch`
@@ -199,12 +201,12 @@ Each repo has a tier, shown at the end of this block.
 
 ## Runs automatically
 
-This block syncs from the fleet repo into every active repo; tier 2 repos run
+Tier 2 repos run
 the reviewer before every push; a nightly job files stray files; a morning
 digest tells dreighto what shipped, what waits on him and what broke. A check that
 runs on its own files each finding as a Linear ticket with the `needs-you` label
 and an `Artifact:` line linking its evidence (`linear.py create --label needs-you`),
-never as its own Telegram message, and the morning digest lists them together. The
+never as its own Telegram message. The
 same facts are in `~/dev/STATE.md`: read it before asking him what is going on.
 
 ## Stories
