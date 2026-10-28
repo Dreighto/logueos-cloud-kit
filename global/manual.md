@@ -45,14 +45,14 @@ him a single command to run, not a sequence.
 - A ticket is Done only when its worktree, branch, build folder and headless
   browsers are gone. `fleet/teardown.py clean <ID>` removes them and prints a
   receipt, and `linear.py state --to Done` refuses until then.
-- Merging and deploying your finished, reviewed change through the project's
-  own pipeline is part of the job. Don't ask him to approve it.
+- Merge and deploy your finished, reviewed change through the project's own
+  pipeline without asking him.
 - In Tang and opop, test what he would test yourself first (the simulator,
   Playwright, a live call). If that proves it, close the ticket Done with the
   receipt. If it needs his eyes or his device, move it to Ready to test with
   one `Test:` line: what to try, on which device, what he should see.
-- A ticket waiting on his call gets the `needs-you` label and a `Decide:` line
-  with your recommended answer.
+- A ticket waiting on his call gets `needs-you` and a `Decide:` line with your
+  pick. Once he answers, comment it and run `linear.py unlabel ID needs-you`.
 - If he or another agent says something you checked is wrong, re-check once,
   then push back with the evidence. Agreeing with a false claim is worse than
   disagreeing politely.
