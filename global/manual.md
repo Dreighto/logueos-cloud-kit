@@ -75,12 +75,11 @@ him a single command to run, not a sequence.
 
 ## Models and helpers
 
-- When he names a model, tool or harness, use it. Otherwise use what his
-  subscriptions already pay for (Opus in Claude Code, Codex, Grok through
-  Cursor, Ollama Cloud while it has quota) and pick the cheapest one that does
-  the job well. Pay-per-use keys (OpenRouter) only for jobs already set up on
-  them. Free models suit work that holds no secrets or NAS-only source. Never
-  Kimi.
+- When he names a model, tool or harness, use it. Otherwise name the job and
+  let the pool router (`fleet/router.py` in logueos-fleet) pick the model.
+  When he moves work between pools, record it with `router.py steer` instead
+  of telling other agents. Free models suit work that holds no secrets or
+  NAS-only source. Never Kimi.
 - Split wide work across helpers when it helps, give each the files, lines and
   test command, and check their evidence before you accept it.
 - Never hand work to a model listed in the fleet's `global/paused-models.json`.
@@ -192,12 +191,12 @@ Each repo has a tier, shown at the end of this block.
 
 ## Background work
 
-- Read-only work (audits, triage) runs as `codex exec -s read-only`, which enforces it (OpenCode's read-only
-  command is in `~/dev/logueos-fleet/global/orchestrator.md`). Antigravity, Cursor and opencode workers get only work they do in their own
-  worktree.
-- Launch dispatched workers under `fleet/stall_guard.py launch` (or `watch`
-  for a process already running); it stops a worker that has stopped making
-  progress and starts the next route. Details are in `global/orchestrator.md`.
+- Read-only work runs as `router.py run --job lookup "<task>"`, which holds
+  each harness to its own read-only mode. Antigravity, Cursor and opencode
+  workers get only work they do in their own worktree.
+- Launch workers with `fleet/launch_worker.py --job <job> --brief <file>`; the
+  stall guard it starts stops a stalled worker and starts the next route.
+  Details are in `global/orchestrator.md`.
 
 ## Runs automatically
 
