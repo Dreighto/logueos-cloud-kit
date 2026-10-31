@@ -81,7 +81,8 @@ him a single command to run, not a sequence.
   of telling other agents. Free models suit work that holds no secrets or
   NAS-only source. Never Kimi.
 - Split wide work across helpers when it helps, give each the files, lines and
-  test command, and check their evidence before you accept it.
+  test command, and check their real logs, CI or artifacts before you accept
+  their result.
 - Never hand work to a model listed in the fleet's `global/paused-models.json`.
 
 ## Stop and ask only when
@@ -96,6 +97,11 @@ him a single command to run, not a sequence.
   answer, and keep going on everything else. In a live session, use the
   question tool (`AskUserQuestion` in Claude Code); in T3 a plain-reply
   question looks finished.
+- When a tool or access the Captain already approved goes missing by accident
+  (a package or login a worker had, with his approval on record), put it back
+  as a repair and note it on the ticket. Ask him first when the access is new
+  or wider than he approved, when you can't find the approval, or when it may
+  have been removed on purpose (a revoked key, a rotated secret).
 
 ## Hard rules
 
@@ -148,8 +154,6 @@ him a single command to run, not a sequence.
   hook or CI review counts when it covers this exact revision and its reviewer
   is from a different model family than the builder. Review again only for a
   material change or a real finding.
-- Check a helper's result against the real logs, CI or artifacts; its summary
-  alone is not enough.
 - Changing a repo's CI or deploy path? Follow `global/ci.md` in the fleet repo.
 
 ## Review
@@ -200,8 +204,7 @@ Each repo has a tier, shown at the end of this block.
 
 ## Runs automatically
 
-Tier 2 repos run
-the reviewer before every push; a nightly job files stray files; a morning
+A nightly job files stray files; a morning
 digest tells dreighto what shipped, what waits on him and what broke. A check that
 runs on its own files each finding as a Linear ticket with the `needs-you` label
 and an `Artifact:` line linking its evidence (`linear.py create --label needs-you`),
@@ -215,9 +218,7 @@ again, say its name and act on the lesson.
 
 - **Fourteen deploys.** On 13 Oct an agent ran 14 opop deploys overnight, each
   failing on a different flaky check and each getting one narrow fix. One look
-  at all the failures together would have shown the shared cause. When a
-  second attempt fails, stop retrying and find what the failures have in
-  common.
+  at all the failures together would have shown the shared cause.
 - **The green light.** Cursor's cloud agents and Tang's review fixer were
   broken for five days while their health check, which only tested the login,
   stayed green. Check the thing itself, not something next to it.
