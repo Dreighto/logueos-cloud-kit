@@ -1,7 +1,7 @@
 # How we work
 
-The operating manual for every agent working for dreighto, in any repo, on this
-machine or in the cloud. The same text sits in every active repo; the repo's
+The operating manual for every agent working for dreighto, in any repo, on any
+machine. The same text sits in every active repo; the repo's
 own rules add to it. Source: `global/manual.md` in the logueos-fleet repo. Do
 not edit this block in a repo: the next sync overwrites it.
 
@@ -43,8 +43,8 @@ him a single command to run, not a sequence.
 - Done means it works, not that it should. Run the test, the build, the page,
   the live check, and say how you know. Mark anything you couldn't confirm.
 - A ticket is Done only when its worktree, branch, build folder and headless
-  browsers are gone. `fleet/teardown.py clean <ID>` removes them and prints a
-  receipt, and `linear.py state --to Done` refuses until then.
+  browsers are gone. `fleet/teardown.py clean <ID>` removes them, and
+  `linear.py state --to Done` refuses until then.
 - Merge and deploy your finished, reviewed change through the project's own
   pipeline without asking him.
 - In Tang and opop, test what he would test yourself first (the simulator,
@@ -59,8 +59,11 @@ him a single command to run, not a sequence.
 - When he corrects you, fix it. If the mistake will likely repeat and costs
   real work, record it with `fleet/lesson.py add` (in logueos-fleet) at its
   narrowest home: a skill's examples, one repo's AGENTS.md, then this manual.
-- Hit every surface: the second entry point, the sibling client, the shared
-  type, the docs.
+- When a missing tool, access or credential slows you down, add the
+  `tool-gap` label and one comment line: `Tool gap: needed <X>, did <Y>,
+  cost <Z>`.
+- Hit every surface: the second entry point, sibling client, shared
+  type, docs.
 - A change that adds a state (enable, archive, mute, park) ships with its way
   back out.
 - Before building anything that keeps running or loads every session (tool,
@@ -71,7 +74,6 @@ him a single command to run, not a sequence.
   what keeps it reversible). Once running, its health check makes one real
   call end to end, not a login check.
 - When you hand work to another agent, tool or bot, follow it to done yourself.
-  He should never have to chase it.
 
 ## Models and helpers
 
@@ -96,7 +98,8 @@ him a single command to run, not a sequence.
 - A choice only he can make. Ask one specific question with your recommended
   answer, and keep going on everything else. In a live session, use the
   question tool (`AskUserQuestion` in Claude Code); in T3 a plain-reply
-  question looks finished.
+  question looks finished. A small, local, reversible defect your verification
+  finds isn't one: fix it, re-verify, report.
 - When a tool or access the Captain already approved goes missing by accident
   (a package or login a worker had, with his approval on record), put it back
   as a repair and note it on the ticket. Ask him first when the access is new
@@ -118,7 +121,8 @@ him a single command to run, not a sequence.
 - Don't leave scratch files, screenshots or logs in a repo.
 - Every change can be found from its ticket and back: work on the ticket's
   branch, end the pull request title with the ticket id, and link the pull
-  request on the ticket. Search Linear first. Move a ticket to In Progress when
+  request on the ticket. Search Linear first; file new ones under the project
+  `global/linear-projects.yaml` maps them to. Move a ticket to In Progress when
   you start it, naming the files it touches (the dispatcher won't start queued
   work on them), and move it on when you stop.
 
@@ -204,12 +208,11 @@ Each repo has a tier, shown at the end of this block.
 
 ## Runs automatically
 
-A nightly job files stray files; a morning
-digest tells dreighto what shipped, what waits on him and what broke. A check that
-runs on its own files each finding as a Linear ticket with the `needs-you` label
-and an `Artifact:` line linking its evidence (`linear.py create --label needs-you`),
-never as its own Telegram message. The
-same facts are in `~/dev/STATE.md`: read it before asking him what is going on.
+A nightly job files stray files; a morning digest says what shipped, what
+waits on him and what broke. A self-running check files each finding as a
+`needs-you` ticket (`linear.py create --label needs-you`) with an `Artifact:`
+evidence link, never a Telegram message.
+`~/dev/STATE.md` has these facts: read it first.
 
 ## Stories
 

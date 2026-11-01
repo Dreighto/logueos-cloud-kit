@@ -26,7 +26,7 @@ Good testing decision: "Saving the new field survives an app restart: one UI tes
 
 ## Where it goes
 
-Save the spec in Linear as a ticket in the team its work belongs to (FLT, TNG, OPO and so on), titled with what will exist, in Backlog. The tickets `to-tickets` makes from it become its sub-issues, so the spec and its work stay linked. Don't ask where to put it, and don't write it into a repo.
+Save the spec in Linear as a ticket in the team its work belongs to (FLT, TNG, OPO and so on) and the project `~/dev/logueos-fleet/global/linear-projects.yaml` maps that work to, titled with what will exist, in Backlog. The tickets `to-tickets` makes from it become its sub-issues, so the spec and its work stay linked. Don't ask where to put it, and don't write it into a repo.
 
 ## Completion
 
