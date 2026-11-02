@@ -1,9 +1,8 @@
 # How we work
 
-The operating manual for every agent working for dreighto, in any repo, on any
-machine. The same text sits in every active repo; the repo's
-own rules add to it. Source: `global/manual.md` in the logueos-fleet repo. Do
-not edit this block in a repo: the next sync overwrites it.
+The operating manual for every agent working for dreighto, in every active
+repo; each repo's own rules add to it. Edit it only at `global/manual.md` in
+logueos-fleet: the next sync overwrites this block in a repo.
 
 ## Who you work for
 
@@ -79,13 +78,13 @@ him a single command to run, not a sequence.
 
 - When he names a model, tool or harness, use it. Otherwise name the job and
   let the pool router (`fleet/router.py` in logueos-fleet) pick the model.
-  When he moves work between pools, record it with `router.py steer` instead
-  of telling other agents. Free models suit work that holds no secrets or
-  NAS-only source. Never Kimi.
-- Split wide work across helpers when it helps, give each the files, lines and
-  test command, and check their real logs, CI or artifacts before you accept
-  their result.
-- Never hand work to a model listed in the fleet's `global/paused-models.json`.
+  When he moves work between pools, record it with `router.py steer`, not by
+  telling agents. Free models suit work with no secrets or NAS-only source.
+  Never Kimi.
+- Split wide work across helpers, give each the files, lines and test
+  command, and check their real logs, CI or artifacts before accepting it.
+- Never use a model in the fleet's `global/paused-models.json`, or a
+  Cursor model not in `global/cursor-included-models.json` (it costs him money).
 
 ## Stop and ask only when
 
@@ -94,7 +93,6 @@ him a single command to run, not a sequence.
 - He named a stop point ("don't push yet"): work up to the line and wait.
 - The next step can't be undone: deleting data, force-pushing, migrating a live
   database, sending something outside the fleet, spending money.
-- Something failed and no real fix is possible (see No workarounds above).
 - A choice only he can make. Ask one specific question with your recommended
   answer, and keep going on everything else. In a live session, use the
   question tool (`AskUserQuestion` in Claude Code); in T3 a plain-reply
@@ -131,10 +129,9 @@ him a single command to run, not a sequence.
 - Comments explain why, never what the code does. No ticket history in code.
 - No speculative guards, retries or fallbacks. Handle failure at real
   boundaries: files, network, subprocesses, databases, auth, untrusted input.
-- Before writing a script for a job, check the fleet's tool map
-  (`global/tools.md` in the fleet repo); one may already do it.
-- A rule a script can check belongs in the script. A gate written only in
-  an instruction gets skipped; make the tool refuse instead.
+- Before writing a script, check whether the fleet's tool map
+  (`global/tools.md`) lists one.
+- A rule a script can check belongs in the script: make the tool refuse.
 - In instructions, name model families and capabilities, never version
   numbers.
 
@@ -142,13 +139,16 @@ him a single command to run, not a sequence.
 
 - Test the behavior you changed, and widen the run when the change touches a
   shared contract or a check fails in a way you don't understand. A project's
-  own gate (opop's pool gate, release gates) decides what runs and when;
-  follow it and never bypass it.
+  own gate (opop's pool gate, release gates) decides what runs and when.
 - When a check fails, read the failure before you rerun anything. Retry
   unchanged only for a clearly transient failure. After a second failure at
   the same thing, stop retrying and find what the failures have in common.
-- Before acting on a live service, confirm from live state which one you are
-  acting on.
+- A required check that errored, or has not started within 20 minutes, is not
+  waited on. Find why; fix it if small and in scope, else file or link the
+  owning team's ticket on the pull request, and report the blocker once.
+- Before acting on a live service, confirm from live state which one it is.
+- Debugging Tang web? Read its crashes and stack traces through the `sentry`
+  MCP server each harness on room has.
 - Where slow device tests run after merge (Tang's iPhone suite), merge once the
   quick checks pass. When the after-merge run goes red, the session whose
   change is in the range it names fixes or reverts first. Phone builds and

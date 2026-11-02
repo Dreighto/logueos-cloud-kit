@@ -1,6 +1,6 @@
 ---
 name: swift-vapor-swiftui-professional
-description: Use for any Swift server work (Vapor + Fluent + PostgreSQL), native SwiftUI work, or full-stack Swift connecting a SwiftUI app to a Vapor API — routes, controllers, middleware, models, migrations, auth, tests, deploy configs, views, state, navigation, networking. Applies current 2026 / Swift 6.2 / Vapor 4 / iOS 26 patterns instead of stale tutorials. For NASDOOM-specific Liquid Glass visual polish, read `~/dev/logueos-fleet/skills/parked-unused/swiftui-liquid-glass-craft/SKILL.md`.
+description: Use for any Swift server work (Vapor + Fluent + PostgreSQL), native SwiftUI work, or full-stack Swift connecting a SwiftUI app to a Vapor API: routes, controllers, middleware, models, migrations, auth, tests, deploy configs, views, state, navigation, networking, Liquid Glass.
 ---
 
 # Swift / Vapor / SwiftUI Professional Developer Skill (entry / quick reference)
