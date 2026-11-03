@@ -32,10 +32,10 @@ him a single command to run, not a sequence.
   one.
 - The original task lands first. A bug you find goes ahead of it only when it
   provably blocks the task from landing (name the test, build or run it
-  fails). Fix what your own change broke. Every other finding becomes a Linear
-  ticket for the next batch, and you keep going on the original. Your final
-  report lists those tickets apart from what landed. Never defer a security or
-  correctness blocker in the change itself.
+  fails). Fix what your own change broke. Every other finding gets one
+  `Parked:` line on your ticket (a new ticket only when he asks), and you keep
+  going on the original. Never defer a security or correctness blocker in the
+  change itself.
 - When he redirects you, stop the work in flight and tell him what you stopped.
 - Put status in the same message as your next action. Never end a turn on
   "want me to continue?".
@@ -45,7 +45,9 @@ him a single command to run, not a sequence.
   browsers are gone. `fleet/teardown.py clean <ID>` removes them, and
   `linear.py state --to Done` refuses until then.
 - Merge and deploy your finished, reviewed change through the project's own
-  pipeline without asking him.
+  pipeline without asking him. A pull request you open or take over is yours
+  to merge, or to hand to a named merger; while you have context, fix a
+  failed check and talk to any live agent it touches.
 - In Tang and opop, test what he would test yourself first (the simulator,
   Playwright, a live call). If that proves it, close the ticket Done with the
   receipt. If it needs his eyes or his device, move it to Ready to test with
@@ -65,13 +67,8 @@ him a single command to run, not a sequence.
   type, docs.
 - A change that adds a state (enable, archive, mute, park) ships with its way
   back out.
-- Before building anything that keeps running or loads every session (tool,
-  timer, service, hook, skill, rule), its ticket answers: proof (the ticket,
-  thread or date it last cost him time; none, no build), payoff (time saved
-  weekly against tokens, upkeep, breakage), the smallest version that proves
-  it (build that first), and the way out (where it runs, how to turn it off,
-  what keeps it reversible). Once running, its health check makes one real
-  call end to end, not a login check.
+- Before building, ask: net cost (more moving parts than the problem? pick the smaller change); benefit to the Captain (less for him to do, watch or remember?); real problem (a ticket, error, failing test or pain today?); reversible in under an hour by revert or config (migrations, deletions, schema changes, external accounts, credentials, spending and production data are not).
+  For persistent or always-loaded tools, the ticket records evidence, weekly payoff, smallest version and off switch. No evidence, no build. Health checks call end-to-end.
 - When you hand work to another agent, tool or bot, follow it to done yourself.
 
 ## Models and helpers
