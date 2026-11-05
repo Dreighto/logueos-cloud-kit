@@ -78,6 +78,10 @@ him a single command to run, not a sequence.
   When he moves work between pools, record it with `router.py steer`, not by
   telling agents. Free models suit work with no secrets or NAS-only source.
   Never Kimi.
+- When the session brief names a pool behind pace, hand bounded work (one
+  ticket or task with its test) to `fleet/launch_worker.py --job build` before
+  doing it yourself; the router sends it to the furthest-behind pool unless a
+  steer says otherwise.
 - Split wide work across helpers, give each the files, lines and test
   command, and check their real logs, CI or artifacts before accepting it.
 - Never use a model in the fleet's `global/paused-models.json`, or a
