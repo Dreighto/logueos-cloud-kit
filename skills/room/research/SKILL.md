@@ -1,6 +1,6 @@
 ---
 name: research
-description: Investigate technical, product, vendor, API, library, or architecture questions using current primary sources and provide evidence-linked findings. Use when the user asks for research, a research pass, investigation, current documentation, source comparison, fact verification, or recommendations based on external evidence.
+description: Investigate technical, product, vendor, API, library, or architecture questions using current primary sources and provide evidence-linked findings. Use when the user asks for research, a research pass, investigation, current documentation, source comparison, fact verification, or recommendations based on external evidence, including comparing an outside video, article or tool with our own setup.
 ---
 
 # Primary-Source Research
@@ -29,3 +29,6 @@ Lead with the recommendation or answer. Separate confirmed facts, tradeoffs, unc
 
 Return findings in chat by default. Write a file only when the user requests an artifact or the active workflow requires one, and follow the workspace placement rules before creating it.
 
+## Lessons from corrections
+
+- **outside-idea-vs-fleet** (FLT-537, 2026-11-06). Bad: Summarised Theo's code review video, said 'most of it you already have', and offered a review round cap and separate bot approval as new ideas; both were already built (fleet/codex_fixer.py MAX_RUNS, fleet/signoff.py), and two claimed matches were different designs. Good: When comparing an outside video, article or tool with the fleet, check each claim in the code and cite the file:line, open with the gaps that are really missing (or say plainly there are none), and never offer as new something you haven't searched for.
