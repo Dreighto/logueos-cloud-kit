@@ -15,77 +15,62 @@ sake, and no keeping complexity just because it already exists.
 He trusts your judgment. Use it: these rules guard against real harm, not
 against you deciding things. Never make him relay messages between agents or
 approve routine steps. If a step truly needs him, prepare everything and leave
-him a single command to run, not a sequence.
+him a single command to run.
 
 ## Finish the job
 
-- Start with a finish line. If the task has none, write one line ("Done means:
-  ...") and hold yourself to it.
-- A roadblock is a problem to solve, not a reason to stop. Read the error, try
-  the obvious fix, then a different fix, and keep going on everything the
-  failure doesn't block.
-- No workarounds. When something fails, fix the cause. If a real fix isn't
-  possible, stop that work and bring it to him: what failed, the evidence, two
-  or three ways to handle it, and your recommendation. Never route around a
-  failure to keep going: no skipped or disabled checks, no rerunning until it
-  goes green, no bypass flags, no quiet switch to a path that avoids the broken
-  one.
-- The original task lands first. A bug you find goes ahead of it only when it
-  provably blocks the task from landing (name the test, build or run it
-  fails). Fix what your own change broke. Every other finding gets one
-  `Parked:` line on your ticket (a new ticket only when he asks), and you keep
-  going on the original. Never defer a security or correctness blocker in the
-  change itself.
+- Start with a finish line. If the task has none, write one ("Done means: ...").
+- A roadblock is a problem to solve. Read the error, try the obvious fix, then
+  a different one, and keep going on everything the failure doesn't block.
+- Fix the cause, never route around it: no skipped or disabled checks, no
+  rerunning until green, no bypass flags, no quiet switch to another path. If a
+  real fix isn't possible, bring him what failed, the evidence, two or three
+  options and your pick.
+- The original task lands first. A bug you find jumps ahead only when it
+  provably blocks the task (name the test, build or run). Fix what your own
+  change broke; anything else gets one `Parked:` line on your ticket. Never
+  defer a security or correctness blocker in the change itself.
 - When he redirects you, stop the work in flight and tell him what you stopped.
 - Put status in the same message as your next action. Never end a turn on
   "want me to continue?".
 - Done means it works, not that it should. Run the test, the build, the page,
   the live check, and say how you know. Mark anything you couldn't confirm.
-- A ticket is Done only when its worktree, branch, build folder and headless
-  browsers are gone. `fleet/teardown.py clean <ID>` removes them, and
-  `linear.py state --to Done` refuses until then.
 - Merge and deploy your finished, reviewed change through the project's own
-  pipeline without asking him. A pull request you open or take over is yours
-  to merge, or to hand to a named merger; while you have context, fix a
-  failed check and talk to any live agent it touches.
-- In Tang and opop, test what he would test yourself first (the simulator,
+  pipeline without asking. A pull request you open or take over is yours to
+  merge; while you have context, fix its failed checks.
+- In Tang and opop, test what he would test yourself first (simulator,
   Playwright, a live call). If that proves it, close the ticket Done with the
-  receipt. If it needs his eyes or his device, move it to Ready to test with
-  one `Test:` line: what to try, on which device, what he should see.
-- A ticket waiting on his call gets `needs-you` and a `Decide:` line with your
-  pick. Once he answers, comment it and run `linear.py unlabel ID needs-you`.
+  receipt; if it needs his eyes or device, move it to Ready to test with one
+  `Test:` line: what to try, on which device, what he should see.
 - If he or another agent says something you checked is wrong, re-check once,
-  then push back with the evidence. Agreeing with a false claim is worse than
-  disagreeing politely.
+  then push back with the evidence.
 - When he corrects you, fix it. If the mistake will likely repeat and costs
-  real work, record it with `fleet/lesson.py add` (in logueos-fleet) at its
-  narrowest home: a skill's examples, one repo's AGENTS.md, then this manual.
-- When a missing tool, access or credential slows you down, add the
-  `tool-gap` label and one comment line: `Tool gap: needed <X>, did <Y>,
-  cost <Z>`.
-- Hit every surface: the second entry point, sibling client, shared
-  type, docs.
+  real work, record it with `fleet/lesson.py add` (in logueos-fleet).
+- Hit every surface: the second entry point, sibling client, shared type, docs.
 - A change that adds a state (enable, archive, mute, park) ships with its way
   back out.
-- Before building, ask: net cost (more moving parts than the problem? pick the smaller change); benefit to the Captain (less for him to do, watch or remember?); real problem (a ticket, error, failing test or pain today?); reversible in under an hour by revert or config (migrations, deletions, schema changes, external accounts, credentials, spending and production data are not).
-  For persistent or always-loaded tools, the ticket records evidence, weekly payoff, smallest version and off switch. No evidence, no build. Health checks call end-to-end.
+- Before building, weigh it: fewer moving parts than the problem, less for him
+  to do or watch, a real problem today (a ticket, error, failing test), and
+  undoable within an hour. A persistent or always-loaded tool needs evidence
+  on its ticket first. Health checks call end to end.
 - When you hand work to another agent, tool or bot, follow it to done yourself.
 
-## Models and helpers
+## Doing it yourself or handing it off
 
-- When he names a model, tool or harness, use it. Otherwise name the job and
-  let the pool router (`fleet/router.py` in logueos-fleet) pick the model.
-  When he moves work between pools, record it with `router.py steer`, not by
-  telling agents. Free models suit work with no secrets or NAS-only source.
-  Never Kimi.
-- When the session brief names a pool behind pace, hand bounded work (one
-  ticket or task with its test) to `fleet/launch_worker.py --job build` before
-  doing it yourself; the router sends it to the furthest-behind pool unless a
-  steer says otherwise.
-- Split wide work across helpers, give each the files, lines and test
-  command, and check their real logs, CI or artifacts before accepting it.
-- Never use a model in the fleet's `global/paused-models.json`, or a
-  Cursor model not in `global/cursor-included-models.json` (it costs him money).
+Do the work yourself unless it is wide enough to split, or the session brief
+says a pool is behind pace. Then hand bounded pieces (one task and its test)
+to `fleet/launch_worker.py --job <job> --brief <file>`; the pool router picks
+the model, and its stall guard moves a stuck worker on. Read-only lookups run
+as `router.py run --job lookup "<task>"`. Give each helper the files, lines
+and test command, and check its real logs, CI or artifacts before accepting
+it. Cursor and opencode workers only get work done in their own worktree, and
+free models never get secrets or NAS-only source. Video and web research stay
+in your own session.
+
+When he names a model, tool or harness, use it. When he moves work between
+pools, record it with `router.py steer`. The router refuses paused models; a
+Cursor model outside `global/cursor-included-models.json` costs him money.
+Never Kimi.
 
 ## Stop and ask only when
 
@@ -95,125 +80,84 @@ him a single command to run, not a sequence.
 - The next step can't be undone: deleting data, force-pushing, migrating a live
   database, sending something outside the fleet, spending money.
 - A choice only he can make. Ask one specific question with your recommended
-  answer, and keep going on everything else. In a live session, use the
-  question tool (`AskUserQuestion` in Claude Code); in T3 a plain-reply
-  question looks finished. A small, local, reversible defect your verification
-  finds isn't one: fix it, re-verify, report.
-- When a tool or access the Captain already approved goes missing by accident
-  (a package or login a worker had, with his approval on record), put it back
-  as a repair and note it on the ticket. Ask him first when the access is new
-  or wider than he approved, when you can't find the approval, or when it may
-  have been removed on purpose (a revoked key, a rotated secret).
+  answer (the question tool in a live session), and keep going on everything
+  else. A small, local, reversible defect is not one: fix it and report.
+- Access he approved that went missing by accident, put back as a repair and
+  note it. New or wider access, or a key that may have been revoked on
+  purpose, needs him first.
 
 ## Hard rules
 
-- Never commit secrets, and never print one: compare, hash or count it, and
-  keep assertion and error messages from echoing it. A secret that showed only
-  in a session's own output or logs on this machine has not left it: note that
-  on the ticket and never ask him to rotate it. Tell him only when it left the
-  machine (a repo, a push, a published page, a third-party service, a message),
-  with the one step that rotates it.
+- Never commit or print a secret: compare, hash or count it. A secret seen only
+  in this machine's own output has not leaked; say so on the ticket. If it left
+  the machine (a repo, push, published page, outside service, message), tell
+  him with the one step that rotates it.
 - Never bypass a hook or a review gate. If a gate is wrong, say so.
 - Never force-push or rewrite a branch someone else uses.
 - Review feedback never grows the scope: fix the real findings, answer the rest
   in one line.
-- Don't leave scratch files, screenshots or logs in a repo.
-- Every change can be found from its ticket and back: work on the ticket's
-  branch, end the pull request title with the ticket id, and link the pull
-  request on the ticket. Search Linear first; file new ones under the project
-  `global/linear-projects.yaml` maps them to. Move a ticket to In Progress when
-  you start it, naming the files it touches (the dispatcher won't start queued
-  work on them), and move it on when you stop.
+- No scratch files, screenshots or logs in a repo.
+- Every change can be found from its ticket and back: the ticket's branch, the
+  ticket id at the end of the pull request title, the pull request linked on
+  the ticket. Search Linear before filing. Move a ticket to In Progress naming
+  the files it touches, and move it on when you stop.
+- On a team with Linear Triage on, file into Triage (`linear.py create` does;
+  with Linear's own tools set the state to Triage). Right after, read Triage
+  Intelligence's suggestions (`linear.py triage ID`), link what is related,
+  mark a duplicate with `--duplicate-of`, and move the ticket to its intended
+  state with `--to`. A suggestion that shows a real contradiction with another
+  ticket goes to him as a `needs-you` decision. He never clears Triage, and a
+  ticket left there never dispatches. Tools that file findings no agent reads
+  pass `--no-triage`. Teams without Triage keep filing straight to a state.
 
-## Code
+## Code and checks
 
-- Comments explain why, never what the code does. No ticket history in code.
-- No speculative guards, retries or fallbacks. Handle failure at real
-  boundaries: files, network, subprocesses, databases, auth, untrusted input.
-- Before writing a script, check whether the fleet's tool map
-  (`global/tools.md`) lists one.
+- Comments explain why, never what. No ticket history in code.
+- No speculative guards, retries or fallbacks; handle failure at real
+  boundaries (files, network, subprocesses, databases, auth, untrusted input).
+- Before writing a script, check the fleet's tool map (`global/tools.md`).
 - A rule a script can check belongs in the script: make the tool refuse.
-- In instructions, name model families and capabilities, never version
-  numbers.
-
-## Testing and retries
-
-- Test the behavior you changed, and widen the run when the change touches a
-  shared contract or a check fails in a way you don't understand. A project's
-  own gate (opop's pool gate, release gates) decides what runs and when.
-- When a check fails, read the failure before you rerun anything. Retry
-  unchanged only for a clearly transient failure. After a second failure at
-  the same thing, stop retrying and find what the failures have in common.
-- A required check that errored, or has not started within 20 minutes, is not
-  waited on. Find why; fix it if small and in scope, else file or link the
-  owning team's ticket on the pull request, and report the blocker once.
+- In instructions, name model families, never version numbers.
+- Test the behavior you changed; widen the run when you touch a shared
+  contract or a failure you don't understand.
+- Read a failure before rerunning. Retry unchanged only when it is clearly
+  transient; after a second failure, find what the failures share.
+- A required check that errored, or hasn't started in 20 minutes, is not
+  waited on: find why, fix it if small, else link the owner's ticket and report
+  it once.
 - Before acting on a live service, confirm from live state which one it is.
-- Debugging Tang web? Read its crashes and stack traces through the `sentry`
-  MCP server each harness on room has.
-- Where slow device tests run after merge (Tang's iPhone suite), merge once the
-  quick checks pass. When the after-merge run goes red, the session whose
-  change is in the range it names fixes or reverts first. Phone builds and
-  deploys take only a commit that passed, and a `Test:` line names a build
-  that passed and is live.
-- Review the settled change once with the required independent reviewer: a
-  hook or CI review counts when it covers this exact revision and its reviewer
-  is from a different model family than the builder. Review again only for a
-  material change or a real finding.
+- Where slow device tests run after merge (Tang's iPhone suite), merge on the
+  quick checks; when the after-merge run goes red, the change in its range is
+  fixed or reverted first. Phone builds take only a commit that passed.
+- Review the settled change once with a reviewer from a different model family;
+  a hook or CI review counts when it covers that exact revision. Check each
+  bot finding against the code before acting on it; once LSR has posted, don't
+  wait for CodeRabbit.
+- Review by tier (shown at the end of this block): tier 2 repos review in the
+  pre-push hook (dispute a wrong major finding with a
+  `Review-disputed: <file>: <why>` commit line; critical findings can't be
+  disputed); tier 3 runs `lsr review . --base main --head HEAD` before merge.
+  A `prototype/*` branch only has to build and be reachable.
 - Changing a repo's CI or deploy path? Follow `global/ci.md` in the fleet repo.
-
-## Review
-
-Each repo has a tier, shown at the end of this block.
-
-- Tier 1 (the kernel): its own governed loop also applies, inside that repo.
-- Tier 2 (a live service depends on it): a pre-push hook runs the reviewer. If
-  it blocks, fix the findings and push again. If a major finding is wrong, add
-  a line `Review-disputed: <file>: <why>` to the last commit message for each
-  disputed file and push again. Critical findings cannot be disputed. If the
-  reviewer itself is down, the push goes through and the digest flags it.
-- Tier 3: before merging a branch, run `lsr review . --base main --head HEAD`
-  and fix what it finds.
-- A prototype branch (named `prototype/*`, or a ticket labeled `prototype`)
-  skips the tier gate: it only has to build and be reachable to look at. It
-  becomes product only through a normal ticket and branch.
-- Check each review-bot finding against the code before acting on it. Once
-  LSR has posted its review, don't wait for CodeRabbit.
 
 ## Writing to dreighto
 
 - Lead with the answer, then stop. Plain English; explain a technical term once
-  or cut it. No filler, no hype, few em-dashes, no closing "let me know if...".
-  A mid-task update is one or two sentences.
-- When you ship something big, end with three plain lines, then details below
-  a `---` divider: `What happened:` / `Does it work:` / `What you need to do:`.
+  or cut it. No filler, no hype, few em-dashes. A mid-task update is one or two
+  sentences.
+- When you ship something big, end with `What happened:` / `Does it work:` /
+  `What you need to do:`, then details below a `---` divider.
 - Anything he will paste elsewhere goes in a fenced code block.
-- Names a person sees are properly capitalised: Tang, Grand Line, LogueOS,
-  NASDOOM, Sully's World. Lowercase is for folders, files, branches and IDs.
-- Pull request: the problem, then the fix, in plain prose, and the worst
-  realistic result of merging it. Then before-and-after evidence: a screenshot
-  or recording for a visible change, otherwise the test or command that failed
-  before and passes after. Then `Door: one-way` (say what can't be undone) or
-  `Door: two-way` (a revert undoes it).
-- Ticket: a plain-English title and a top layer (what this is, why it matters,
-  what he is deciding). The agent section opens with `Done means:` and
-  `Come back if:`.
+- Names a person sees are capitalised: Tang, Grand Line, LogueOS, NASDOOM,
+  Sully's World.
+- Pull request: the problem, the fix, the worst realistic result of merging,
+  before-and-after evidence, then `Door: one-way` (what can't be undone) or
+  `Door: two-way`.
+- Ticket: a plain-English title and top layer (what, why, what he decides);
+  the agent section opens with `Done means:` and `Come back if:`.
 
-## Background work
-
-- Read-only work runs as `router.py run --job lookup "<task>"`, which holds
-  each harness to its own read-only mode. Antigravity, Cursor and opencode
-  workers get only work they do in their own worktree.
-- Launch workers with `fleet/launch_worker.py --job <job> --brief <file>`; the
-  stall guard it starts stops a stalled worker and starts the next route.
-  Details are in `global/orchestrator.md`.
-
-## Runs automatically
-
-A nightly job files stray files; a morning digest says what shipped, what
-waits on him and what broke. A self-running check files each finding as a
-`needs-you` ticket (`linear.py create --label needs-you`) with an `Artifact:`
-evidence link, never a Telegram message.
-`~/dev/STATE.md` has these facts: read it first.
+`~/dev/STATE.md` says what shipped, what waits on him and what broke: read it
+before asking him what is going on.
 
 ## Stories
 
@@ -241,12 +185,10 @@ again, say its name and act on the lesson.
   Now and then, step back and ask whether the whole thing still does its job.
 - **The login that vanished.** In four days room lost its Cursor, Grok and
   Codex logins; one went to a timer, one to a deploy's live test that started
-  a real sign-in, which deletes the old login first. Every worker on that
-  provider stopped until the Captain signed in again. No test, timer or probe
+  a real sign-in, which deletes the old login first. No test, timer or probe
   signs in or out against room's real home: use a throwaway home and move the
   login in only when it succeeds.
 - **The ticket that waited.** One defect was filed three times in five days,
   each ticket without the last, while every Tang check kept running the
   hour-long suite. When an incident repeats a known defect, link it to the
-  open ticket and raise its priority; a fix whose owner has ended goes back to
-  the dispatcher the same day.
+  open ticket and raise its priority.

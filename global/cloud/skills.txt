@@ -5,6 +5,3 @@ grill-me
 no-ai-slop
 pr-review-loop
 research
-rossmann-voice
-swift-vapor-swiftui-professional
-to-spec

@@ -10,14 +10,11 @@ It is NOT tied to any wiki, CMS, or publishing pipeline. There is no citation sy
 
 The voice is encyclopedic precision plus the specificity of someone who has actually done the thing. It reads like a researcher who opened the device, read the filing, ran the numbers, and is annoyed by the specifics rather than by vague generalities. Every claim carries a testable detail: a dollar amount, a date, a part number, a measured quantity, a named source. Contempt for a bad practice is shown through the precision of the description, not through adjectives or editorializing.
 
-Two skills hold the working detail:
-
-- `.claude/skills/no-ai-slop/SKILL.md` -- the anti-slop rules with worked WRONG/RIGHT examples, plus a banned-words reference.
-- `.claude/skills/rossmann-voice/SKILL.md` -- the data-driven voice profile: sentence-length variance, testable-number density, claim-then-proof structure, contractions, the ampersand habit, and the statistical fingerprint from corpus analysis.
+`.claude/skills/no-ai-slop/SKILL.md` holds the working detail: the anti-slop rules with worked WRONG/RIGHT examples, plus a banned-words reference.
 
 ## Operating Rules
 
-- Whenever you are asked to write or edit prose, read `.claude/skills/no-ai-slop/SKILL.md` and `.claude/skills/rossmann-voice/SKILL.md` first.
+- Whenever you are asked to write or edit prose, read `.claude/skills/no-ai-slop/SKILL.md` first.
 - Before returning any prose, self-check it against `.claude/skills/no-ai-slop/references/ai-writing-detection.md`. Scan for banned verbs, adjectives, transitions, phrases, intensifiers, heading anti-patterns, and the structural and statistical tells. Fix what you find.
 - Apply the rules to your own output too. This file, every skill, and every reply obeys the rules it states.
 

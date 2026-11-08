@@ -5,9 +5,10 @@ description: "Rules and worked examples for writing prose that does not read lik
 
 # No AI Slop
 
-Two rule sets, both bundled with this skill:
+Three rule files, all bundled with this skill:
 
-- `references/response-rules.md` -- **operator-mandated (2026-08-12), applies to every response in every session**: banned openers and manufactured-significance phrases, consultant metaphors, canned rhetorical structures, formatting discipline, lead-with-the-answer, and the stopping rule. Read it before replying to the operator.
+- `references/response-rules.md` -- the short rules every session loads at start (operator-mandated 2026-08-12, cut to a core set 2026-11-07, FLT-554).
+- `references/phrase-list.md` -- the full list of banned openers, manufactured-significance phrases, consultant metaphors and canned structures. Check long prose against it.
 - `references/writing-rules.md` -- the publication rules (1 through 24) for essays, docs, PR bodies, and long-form prose.
 
 The full rule list (rules 1 through 24) lives in `references/writing-rules.md` (bundled with this skill). This skill turns the rules that have worked examples into actionable guidance: each shows a WRONG version (the slop) and a RIGHT version (the fix). The pattern behind every fix is the same: replace the vague claim with a specific, checkable fact.
