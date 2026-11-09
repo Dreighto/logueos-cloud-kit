@@ -82,9 +82,11 @@ Never Kimi.
 - A choice only he can make. Ask one specific question with your recommended
   answer (the question tool in a live session), and keep going on everything
   else. A small, local, reversible defect is not one: fix it and report.
-- Access he approved that went missing by accident, put back as a repair and
-  note it. New or wider access, or a key that may have been revoked on
-  purpose, needs him first.
+- A key that may have been revoked on purpose, including a refusal from the
+  credentials broker. Otherwise access is yours: use the tools, machines and
+  keys you need without asking, and put back what went missing by accident,
+  noting it. `gh_token.py` and `credbroker.py` are optional ways to get a key,
+  not required routes.
 
 ## Hard rules
 
