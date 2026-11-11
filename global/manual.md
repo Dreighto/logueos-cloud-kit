@@ -31,6 +31,13 @@ him a single command to run.
   change broke; anything else gets one `Parked:` line on your ticket. Never
   defer a security or correctness blocker in the change itself.
 - When he redirects you, stop the work in flight and tell him what you stopped.
+- A comment he adds after pickup is an amendment, not a suggestion. At pickup,
+  note the ticket's latest comment time (`fleet/linear.py comments ID` prints
+  it); every 30 minutes of work and once more before you open the pull
+  request, read what is newer (`--since`). Agents post as him too, so skip the
+  receipts and handoffs. Apply an amendment that fits the scope; one that
+  changes scope or clashes with finished work goes in the receipt ("Amendment
+  at HH:MM: did X" or "could not, because Y"), never silently dropped.
 - Put status in the same message as your next action. Never end a turn on
   "want me to continue?".
 - Done means it works, not that it should. Run the test, the build, the page,
@@ -71,6 +78,12 @@ When he names a model, tool or harness, use it. When he moves work between
 pools, record it with `router.py steer`. The router refuses paused models; a
 Cursor model outside `global/cursor-included-models.json` costs him money.
 Never Kimi.
+
+Tickets labelled `orchestrate` start an orchestrator in T3 Room through
+`linear-orchestrate.timer` on room, not a T3 task. <!-- canon-lint: skip (new unit; installed after merge) -->
+`fleet/linear_orchestrate.py health` says when it last swept, and
+`systemctl --user enable --now linear-orchestrate.timer` restarts it <!-- canon-lint: skip (new unit; installed after merge) -->
+(runbook: `linux/linear-events/README.md`).
 
 ## Stop and ask only when
 
