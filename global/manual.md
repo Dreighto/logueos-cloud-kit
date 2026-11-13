@@ -141,8 +141,8 @@ Tickets labelled `orchestrate` start an orchestrator in T3 Room through
   waited on: find why, fix it if small, else link the owner's ticket and report
   it once.
 - Before acting on a live service, confirm from live state which one it is.
-- Where slow device tests run after merge (Tang's iPhone suite), merge on the
-  quick checks; when the after-merge run goes red, the change in its range is
+- Where slow device tests run nightly (Tang's iPhone suite), merge on the
+  quick checks; when the nightly run goes red, the change in its range is
   fixed or reverted first. Phone builds take only a commit that passed.
 - Review the settled change once with a reviewer from a different model family;
   a hook or CI review counts when it covers that exact revision. Check each
