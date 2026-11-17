@@ -79,7 +79,7 @@ pools, record it with `router.py steer`. The router refuses paused models; a
 Cursor model outside `global/cursor-included-models.json` costs him money.
 Never Kimi.
 
-Tickets labelled `orchestrate` start an orchestrator in T3 Room through
+Tickets labelled `orchestrate` start an orchestrator on opop through
 `linear-orchestrate.timer` on room, not a T3 task. <!-- canon-lint: skip (new unit; installed after merge) -->
 `fleet/linear_orchestrate.py health` says when it last swept, and
 `systemctl --user enable --now linear-orchestrate.timer` restarts it <!-- canon-lint: skip (new unit; installed after merge) -->
