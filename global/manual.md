@@ -33,8 +33,8 @@ him a single command to run.
 - When he redirects you, stop the work in flight and tell him what you stopped.
 - A comment he adds after pickup is an amendment, not a suggestion. At pickup,
   note the ticket's latest comment time (`fleet/linear.py comments ID` prints
-  it); every 30 minutes of work and once more before you open the pull
-  request, read what is newer (`--since`). Agents post as him too, so skip the
+  it), and read what is newer (`--since`) before you open the pull request;
+  T3 delivers his comments in between. Agents post as him too, so skip the
   receipts and handoffs. Apply an amendment that fits the scope; one that
   changes scope or clashes with finished work goes in the receipt ("Amendment
   at HH:MM: did X" or "could not, because Y"), never silently dropped.
