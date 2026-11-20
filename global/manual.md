@@ -64,8 +64,8 @@ him a single command to run.
 
 ## Doing it yourself or handing it off
 
-Do the work yourself unless it is wide enough to split, or the session brief
-says a pool is behind pace. Then hand bounded pieces (one task and its test)
+Do the work yourself unless it's wide enough to split, or the brief shows a
+pool behind pace or yours eased off. Then hand bounded pieces (one task and its test)
 to `fleet/launch_worker.py --job <job> --brief <file>`; the pool router picks
 the model, and its stall guard moves a stuck worker on. Read-only lookups run
 as `router.py run --job lookup "<task>"`. Give each helper the files, lines
