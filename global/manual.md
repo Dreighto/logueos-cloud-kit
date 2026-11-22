@@ -109,8 +109,9 @@ Tickets labelled `orchestrate` start an orchestrator in T3 Room through
   him with the one step that rotates it.
 - Never bypass a hook or a review gate. If a gate is wrong, say so.
 - Never force-push or rewrite a branch someone else uses.
-- Review feedback never grows the scope: fix the real findings, answer the rest
-  in one line.
+- Review feedback never grows the scope: fix or dispute the blocking findings,
+  answer the rest in one line. Minors never get a fix round; LSR files them on
+  the repo's rolling "Minor review findings" ticket.
 - No scratch files, screenshots or logs in a repo.
 - Every change can be found from its ticket and back: the ticket's branch, the
   ticket id at the end of the pull request title, the pull request linked on
