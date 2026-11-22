@@ -144,15 +144,13 @@ Tickets labelled `orchestrate` start an orchestrator in T3 Room through
 - Where slow device tests run nightly (Tang's iPhone suite), merge on the
   quick checks; when the nightly run goes red, the change in its range is
   fixed or reverted first. Phone builds take only a commit that passed.
-- Review the settled change once with a reviewer from a different model family;
-  a hook or CI review counts when it covers that exact revision. Check each
-  bot finding against the code before acting on it; once LSR has posted, don't
-  wait for CodeRabbit.
-- Review by tier (shown at the end of this block): tier 2 repos review in the
-  pre-push hook (dispute a wrong major finding with a
-  `Review-disputed: <file>: <why>` commit line; critical findings can't be
-  disputed); tier 3 runs `lsr review . --base main --head HEAD` before merge.
-  A `prototype/*` branch only has to build and be reachable.
+- Use the designated review on the current PR head (OpOp host CI, Tang LSR).
+  Missing, failed or unfinished review blocks. Verify findings. CodeRabbit advises.
+- Tier 2 hooks review pushes. For PR-gated destinations in the registry, branch
+  pushes run deterministic checks. Tier 3 without a PR gate runs
+  `lsr review . --base main --head HEAD`. Dispute wrong majors with
+  `Review-disputed: <file>: <why>`. Criticals block. `prototype/*` only has
+  to build and be reachable.
 - Changing a repo's CI or deploy path? Follow `global/ci.md` in the fleet repo.
 
 ## Writing to dreighto

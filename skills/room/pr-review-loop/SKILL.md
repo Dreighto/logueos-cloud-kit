@@ -5,9 +5,13 @@ description: Own the review loop for a change in grandline or minecraft-knowledg
 
 # PR review loop
 
-Operator ruling (2026-09-04): agents write the code right. Nobody else checks
-their work for them. CodeRabbit and other outside reviewers are advisory. The
-kernel's LSR is not used in these repos; each repo carries its own reviewer.
+Use the designated review on the current PR head. For repos gated by the
+LSR bot, run the applicable deterministic checks locally and use the bot's PR
+verdict. A missing, failed or incomplete verdict blocks merge. CodeRabbit is
+advisory through FLT-688.
+
+Grand Line and Minecraft Knowledge require their own reviewers and retain
+their local review rules. Their procedure follows.
 
 The agent that writes a change owns it until it is merged or handed back with
 a reason. Mechanics: `bin/review` and `bin/pr-gate` (grandline),
@@ -30,8 +34,9 @@ a reason. Mechanics: `bin/review` and `bin/pr-gate` (grandline),
    logueos-fleet), or touches credentials. Done when the
    PR URL prints.
 4. Run `bin/pr-gate <number>`. It fetches the branch, runs `bin/review` on
-   the PR head, posts the summary on the PR, waits up to five minutes for
-   CodeRabbit, and prints READY, BLOCKED, NOREVIEW or NOMERGE.
+   the PR head and prints READY, BLOCKED, NOREVIEW or NOMERGE. Grand Line
+   also waits for its checks workflow on that head. Follow the repo's gate
+   and runbook when it reports a pending check or an open thread.
 5. BLOCKED: for each listed finding or thread, either fix it and push, or
    reply on the thread with the evidence it is wrong, naming the commit.
    Rerun step 4. Done when the gate prints anything but BLOCKED.
@@ -47,8 +52,8 @@ a reason. Mechanics: `bin/review` and `bin/pr-gate` (grandline),
 
 Rules that hold regardless of harness:
 
-- Never push a commit `bin/review` has not passed. "The gate will catch it"
-  is the attitude this ruling exists to end.
+- In Grand Line and Minecraft Knowledge, get a pass from the repo's local
+  reviewer before pushing, as required by their repo rules.
 - Never resolve a bot thread without a reply that says what changed or why not.
 - Never dismiss a review by hand; the gate dismisses stale ones on merge.
 - Never merge with an open thread, a draft flag, a conflict, or a NOREVIEW.
