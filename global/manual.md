@@ -77,13 +77,8 @@ in your own session.
 When he names a model, tool or harness, use it. When he moves work between
 pools, record it with `router.py steer`. The router refuses paused models; a
 Cursor model outside `global/cursor-included-models.json` costs him money.
-Never Kimi.
-
-Tickets labelled `orchestrate` start an orchestrator in T3 Room through
-`linear-orchestrate.timer` on room, not a T3 task. <!-- canon-lint: skip (new unit; installed after merge) -->
-`fleet/linear_orchestrate.py health` says when it last swept, and
-`systemctl --user enable --now linear-orchestrate.timer` restarts it <!-- canon-lint: skip (new unit; installed after merge) -->
-(runbook: `linux/linear-events/README.md`).
+Tickets labelled `orchestrate` start their own orchestrator (the `orchestrate`
+skill has the timer).
 
 ## Stop and ask only when
 
@@ -117,14 +112,9 @@ Tickets labelled `orchestrate` start an orchestrator in T3 Room through
   ticket id at the end of the pull request title, the pull request linked on
   the ticket. Search Linear before filing. Move a ticket to In Progress naming
   the files it touches, and move it on when you stop.
-- On a team with Linear Triage on, file into Triage (`linear.py create` does;
-  with Linear's own tools set the state to Triage). Right after, read Triage
-  Intelligence's suggestions (`linear.py triage ID`), link what is related,
-  mark a duplicate with `--duplicate-of`, and move the ticket to its intended
-  state with `--to`. A suggestion that shows a real contradiction with another
-  ticket goes to him as a `needs-you` decision. He never clears Triage, and a
-  ticket left there never dispatches. Tools that file findings no agent reads
-  pass `--no-triage`. Teams without Triage keep filing straight to a state.
+- File with `linear.py create`; on a Triage team, read the suggestions it
+  prints, link or mark duplicates, and clear it as it says. A real contradiction
+  goes to him as a `needs-you` decision.
 
 ## Code and checks
 
@@ -156,9 +146,8 @@ Tickets labelled `orchestrate` start an orchestrator in T3 Room through
 
 ## Writing to dreighto
 
-- Lead with the answer, then stop. Plain English; explain a technical term once
-  or cut it. No filler, no hype, few em-dashes. A mid-task update is one or two
-  sentences.
+- Lead with the answer, then stop, in plain English (the `no-ai-slop` skill has
+  the rest). A mid-task update is one or two sentences.
 - When you ship something big, end with `What happened:` / `Does it work:` /
   `What you need to do:`, then details below a `---` divider.
 - Anything he will paste elsewhere goes in a fenced code block.
