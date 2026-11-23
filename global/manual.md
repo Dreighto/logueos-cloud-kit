@@ -110,6 +110,10 @@ skill has the timer).
   ticket id at the end of the pull request title, the pull request linked on
   the ticket. Search Linear before filing. Move a ticket to In Progress naming
   the files it touches, and move it on when you stop.
+- A ticket that needs another first gets a blocked-by link (`linear.py block
+  ID --by OTHER`); the dispatcher, the slots and the landing queue obey it. No
+  draft held back, no scheduled poll on another pull request, no merge order
+  in a comment.
 - File with `linear.py create`; on a Triage team, read the suggestions it
   prints, link or mark duplicates, and clear it as it says. A real contradiction
   goes to him as a `needs-you` decision.
