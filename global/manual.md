@@ -40,7 +40,10 @@ him a single command to run.
 - Done means it works: run the test, build, page or live check, say how you
   know, and mark what you couldn't confirm.
 - A pull request you open or take over is yours: fix its failed checks, then
-  merge and deploy it through the project's own pipeline without asking.
+  merge and deploy it through the project's own pipeline without asking. Where
+  a landing queue or merge loop owns it (a `landing:` or `merge:` entry in the
+  registry), that pipeline is the queue: never merge or watch it yourself, and
+  end your turn once it is open and passing; a hand-back reaches the ticket.
 - In Tang and opop, test what he would test yourself first (simulator,
   Playwright, a live call). If that proves it, close the ticket Done with the
   receipt; if it needs his eyes or device, move it to Ready to test with one
