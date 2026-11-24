@@ -100,7 +100,8 @@ skill has the timer).
   in this machine's own output has not leaked; say so on the ticket. If it left
   the machine (a repo, push, published page, outside service, message), tell
   him with the one step that rotates it.
-- Never bypass a hook or a review gate. If a gate is wrong, say so.
+- Never bypass a hook or a review gate (so no `/ship` or `/steward` on a
+  queue-owned pull request: they push with hooks off). If a gate is wrong, say so.
 - Never force-push or rewrite a branch someone else uses.
 - Review feedback never grows the scope: fix or dispute the blocking findings,
   answer the rest in one line. Minors never get a fix round; LSR files them on
