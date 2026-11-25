@@ -37,8 +37,10 @@ him a single command to run.
   handoffs. Apply one that fits the scope; one that doesn't goes in the receipt
   ("Amendment at HH:MM: did X" or "could not, because Y").
 - Never end a turn on "want me to continue?".
-- Done means it works: run the test, build, page or live check, say how you
-  know, and mark what you couldn't confirm.
+- Done means it works: run the test, build, page or live check. Close with
+  `Done means, checked:` and evidence per item (else `--unproven "WHY"`).
+  Paused tickets carry a `Waits on:` line. Old In Progress work holds team
+  starts (`global/finish-first.json`).
 - A pull request you open or take over is yours. Where a landing queue owns it
   (a `landing:` or `merge:` entry in the registry), open it ready to land, put
   your receipt on the ticket, and stop: the queue orders and merges it, stacked
@@ -75,10 +77,8 @@ free models never get secrets or NAS-only source. Video and web research stay
 in your own session.
 
 When he names a model, tool or harness, use it. When he moves work between
-pools, record it with `router.py steer`. The router refuses paused models; a
-Cursor model outside `global/cursor-included-models.json` costs him money.
-Tickets labelled `orchestrate` start their own orchestrator (the `orchestrate`
-skill has the timer).
+pools, record it with `router.py steer`. A Cursor model outside
+`global/cursor-included-models.json` costs him money.
 
 ## Stop and ask only when
 
