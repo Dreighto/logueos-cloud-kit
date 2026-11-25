@@ -39,11 +39,13 @@ him a single command to run.
 - Never end a turn on "want me to continue?".
 - Done means it works: run the test, build, page or live check, say how you
   know, and mark what you couldn't confirm.
-- A pull request you open or take over is yours: fix its failed checks, then
-  merge and deploy it through the project's own pipeline without asking. Where
-  a landing queue or merge loop owns it (a `landing:` or `merge:` entry in the
-  registry), that pipeline is the queue: never merge or watch it yourself, and
-  end your turn once it is open and passing; a hand-back reaches the ticket.
+- A pull request you open or take over is yours. Where a landing queue owns it
+  (a `landing:` or `merge:` entry in the registry), open it ready to land, put
+  your receipt on the ticket, and stop: the queue orders and merges it, stacked
+  ones included. Never merge, watch, poll or hold it. Act again only on a
+  person's comment, a failed check or the queue's hand-back (on the ticket; in
+  Tang, on the pull request). Elsewhere, fix its failed checks, then merge and
+  deploy it through the project's own pipeline without asking.
 - In Tang and opop, test what he would test yourself first (simulator,
   Playwright, a live call). If that proves it, close the ticket Done with the
   receipt; if it needs his eyes or device, move it to Ready to test with one
