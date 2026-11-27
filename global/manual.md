@@ -54,14 +54,13 @@ him a single command to run.
   `Test:` line: what to try, on which device, what he should see.
 - Told something you checked is wrong: re-check once, then push back with the
   evidence. When he corrects you, fix it; a mistake likely to repeat at real
-  cost goes in `fleet/lesson.py add` (in logueos-fleet).
+  cost goes in `fleet/lesson.py add`.
 - Hit every surface: the second entry point, sibling client, shared type, docs.
 - A change that adds a state (enable, archive, mute, park) ships with its way
   back out.
 - Before building, weigh it: fewer moving parts than the problem, less for him
   to watch, a real problem today, undoable within an hour. A persistent or
-  always-loaded tool needs evidence on its ticket first. Health checks call end
-  to end.
+  always-loaded tool needs evidence on its ticket first.
 - When you hand work to another agent, tool or bot, follow it to done yourself.
 
 ## Doing it yourself or handing it off
@@ -83,7 +82,7 @@ pools, record it with `router.py steer`. A Cursor model outside
 ## Stop and ask only when
 
 - He asked a question: diagnose and report, and change nothing until he asks
-  for the fix. If he describes a problem and asks you to handle it, fix it.
+  for the fix. A problem he asks you to handle, fix.
 - He named a stop point ("don't push yet"): work up to the line and wait.
 - The next step can't be undone: deleting data, force-pushing, migrating a live
   database, sending something outside the fleet, spending money.
@@ -93,8 +92,7 @@ pools, record it with `router.py steer`. A Cursor model outside
 - A key that may have been revoked on purpose, including a refusal from the
   credentials broker. Otherwise access is yours: use the tools, machines and
   keys you need without asking, and put back what went missing by accident,
-  noting it. `gh_token.py` and `credbroker.py` are optional ways to get a key,
-  not required routes.
+  noting it. `gh_token.py` and `credbroker.py` are optional.
 
 ## Hard rules
 
@@ -111,7 +109,7 @@ pools, record it with `router.py steer`. A Cursor model outside
 - No scratch files, screenshots or logs in a repo.
 - Every change can be found from its ticket and back: the ticket's branch, the
   ticket id at the end of the pull request title, the pull request linked on
-  the ticket. Search Linear before filing. Move a ticket to In Progress naming
+  the ticket. Move a ticket to In Progress naming
   the files it touches, and move it on when you stop.
 - A ticket that needs another first gets a blocked-by link (`linear.py block
   ID --by OTHER`); the dispatcher, the slots and the landing queue obey it. No
@@ -126,7 +124,7 @@ pools, record it with `router.py steer`. A Cursor model outside
 - Comments explain why, never what. No ticket history in code.
 - No speculative guards, retries or fallbacks; handle failure at real
   boundaries (files, network, subprocesses, databases, auth, untrusted input).
-- Before writing a script, check the fleet's tool map (`global/tools.md`).
+- Before writing a script, check `global/tools.md`.
 - A rule a script can check belongs in the script: make the tool refuse.
 - In instructions, name model families, never version numbers.
 - Test the behavior you changed; widen the run when you touch a shared
@@ -147,7 +145,7 @@ pools, record it with `router.py steer`. A Cursor model outside
   `lsr review . --base main --head HEAD`. Dispute wrong majors with
   `Review-disputed: <file>: <why>`. Criticals block. `prototype/*` only has
   to build and be reachable.
-- Changing a repo's CI or deploy path? Follow `global/ci.md` in the fleet repo.
+- Changing a repo's CI or deploy path? Follow `global/ci.md`.
 
 ## Writing to dreighto
 
@@ -160,12 +158,12 @@ pools, record it with `router.py steer`. A Cursor model outside
   Sully's World.
 - Pull request: the problem, the fix, the worst realistic result of merging,
   before-and-after evidence, then `Door: one-way` (what can't be undone) or
-  `Door: two-way`.
+  `Door: two-way`, then `Made by: <model>, <effort>, <harness>`.
 - Ticket: a plain-English title and top layer (what, why, what he decides);
   the agent section opens with `Done means:` and `Come back if:`.
 
 `~/dev/STATE.md` says what shipped, what waits on him and what broke: read it
-before asking him what is going on.
+before asking him.
 
 ## Stories
 
