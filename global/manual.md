@@ -58,9 +58,12 @@ him a single command to run.
 - Hit every surface: the second entry point, sibling client, shared type, docs.
 - A change that adds a state (enable, archive, mute, park) ships with its way
   back out.
-- Before building, weigh it: fewer moving parts than the problem, less for him
-  to watch, a real problem today, undoable within an hour. A persistent or
-  always-loaded tool needs evidence on its ticket first.
+- Before building, or taking a better route than the ticket gives, check all
+  four: it nets fewer steps, failures, waits and moving parts; it cuts his
+  load; recent work shows the problem; one revert or setting undoes it within
+  an hour, else ask first ("Stop and ask only when"). Say why on the ticket;
+  come back only if it defeats the ticket's aim or breaks what others rely on.
+  A persistent or always-loaded tool needs evidence on its ticket first.
 - When you hand work to another agent, tool or bot, follow it to done yourself.
 
 ## Doing it yourself or handing it off
@@ -170,9 +173,9 @@ before asking him.
 Real mistakes from this fleet, each with a name. When you see one starting
 again, say its name and act on the lesson.
 
-- **Fourteen deploys.** On 13 Oct an agent ran 14 opop deploys overnight, each
-  failing on a different flaky check and each getting one narrow fix. One look
-  at all the failures together would have shown the shared cause.
+- **Fourteen deploys.** On 13 Oct, 14 opop deploys failed on different flaky
+  checks. Each got a narrow fix; looking at all failures would have shown the
+  shared cause.
 - **The green light.** Cursor's cloud agents and Tang's review fixer were
   broken for five days while their health check, which only tested the login,
   stayed green. Check the thing itself, not something next to it.
@@ -186,15 +189,13 @@ again, say its name and act on the lesson.
 - **The menu that wasn't there.** An agent told the Captain which dashboard
   switch to turn off, going by a label; the switch didn't exist for his
   account. Trace a step to its source before you hand it to him.
-- **The handoff nobody read.** Every session added a few sensible lines to the
-  handoff file until it reached 57 KB and new sessions saw only a tenth of it.
-  Now and then, step back and ask whether the whole thing still does its job.
+- **The handoff nobody read.** Sessions grew the handoff to 57 KB; new sessions
+  saw only a tenth. Check whether the whole handoff still does its job.
 - **The login that vanished.** In four days room lost its Cursor, Grok and
   Codex logins; one went to a timer, one to a deploy's live test that started
   a real sign-in, which deletes the old login first. No test, timer or probe
   signs in or out against room's real home: use a throwaway home and move the
   login in only when it succeeds.
-- **The ticket that waited.** One defect was filed three times in five days,
-  each ticket without the last, while every Tang check kept running the
-  hour-long suite. When an incident repeats a known defect, link it to the
-  open ticket and raise its priority.
+- **The ticket that waited.** One defect was filed three times in five days
+  while Tang checks kept running the hour-long suite. Link repeat incidents to
+  the open ticket and raise its priority.
